@@ -35,7 +35,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.4",
-  "image": "/Users/mtraylor/Projects/games/ldjam40/public/assets/img/patrick-walk_64x64.png",
+  "image": "/assets/img/patrick-walk_64x64.png",
   "format": "RGBA8888",
   "size": { "w": 256, "h": 64 },
   "scale": "1",
