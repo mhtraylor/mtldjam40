@@ -63,6 +63,8 @@ function preload() {
 function create() {
   const { game } = this;
 
+  this.game.world.setBounds(0, 0, CONFIG.LEVEL.width, CONFIG.LEVEL.height)
+
   this.physics.startSystem(Phaser.Physics.ARCADE)
   this.physics.arcade.gravity.y = CONFIG.GAME.gravity
 
@@ -93,11 +95,11 @@ function create() {
   pt.init([48, 42, 8, 8])
   pt.addCollision(layer_air)
   pt.addCollision(layer_ground)
+  pt.body.collideWorldBounds = true
+
+  this.game.camera.follow(pt, Phaser.Camera.FOLLOW_PLATFORMER)
 
   window._pt = pt;
-
-
-
 
   // Initialize Ticket
   ticket = new Ticket(game, {
@@ -110,8 +112,6 @@ function create() {
 
   ticket.init(layer_ground, pt)
   window._ticket = ticket
-
-
 
 }
 
