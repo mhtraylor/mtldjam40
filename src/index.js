@@ -30,11 +30,11 @@ let patrick;
 let pt;
 
 function preload() {
-  this.game.load.image('dev_bkg', 'assets/img/dev_lvl_1536x480.png')
+  //this.game.load.image('dev_bkg', 'assets/img/dev_lvl_1536x480.png')
   this.game.load.spritesheet
     ( 'patrick'
-    , 'assets/img/patrick-walk_64x64.png'
-    , 64, 64, 4)
+    , 'assets/img/patrick_64x64.png'
+    , 64, 64, 8)
 
     this.game.load.tilemap('map', 'assets/img/map.json', null, Phaser.Tilemap.TILED_JSON)
     this.game.load.image('platform', 'assets/img/ground-sprite.png')
@@ -49,16 +49,6 @@ function create() {
   const layer_air = map.createLayer('air')
 
   const layer_ground = map.createLayer('ground')
-
-  patrick = game.add.sprite(
-    game.world.centerX,
-    CONFIG.SCREEN.height - 110,
-    'patrick'
-  )
-
-  patrick.anchor.setTo(0.5, 0.5)
-  patrick.animations.add('walk')
-  patrick.animations.play('walk', 8, true)
 
   pt = new Player(game, {
     pos   : [game.world.centerX - 64, CONFIG.SCREEN.height - 110],
