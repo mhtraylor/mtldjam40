@@ -6,6 +6,9 @@ const CONFIG = {
     LEVEL: {
         width: 1536,
         height: 480,
+    },
+    GAME: {
+        gravity: 0
     }
 }
 

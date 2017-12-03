@@ -16,29 +16,32 @@ export class Player extends Entity {
             { name: 'idle', frames: [5, 6, 7, 8], fps: 4, loop: true }
         ]
 
-        this.config.MAX_SPEED = 128
-        this.config.ACCELERATION = 32
-        this.config.DRAG = 160
-        this.config.GRAVITY = 2600
-        this.config.JUMP_SPEED = -160
+        this.config.MAX_SPEED = 175
+        this.config.ACCELERATION = 400
+        this.config.DRAG = 300
+        this.config.JUMP_SPEED = -4000
 
 
         anim.forEach(x => this.addAnimation(x))
     }
 
-    moveUp() {}
+    moveUp() {
+        this.body.velocity.y = this.config.JUMP_SPEED
+    }
 
     moveDown() {}
 
     moveLeft() {
         this.scale.x = -1
-        this.x -= this.config.speed.x
+        this.body.acceleration.x = -this.config.ACCELERATION
+
         this.play('walk')
     }
 
     moveRight() {
         this.scale.x = 1
-        this.x += this.config.speed.x
+        this.body.acceleration.x = this.config.ACCELERATION
+
         this.play('walk')
     }
 
@@ -52,7 +55,8 @@ export class Player extends Entity {
         } else if (this.keys.d.isDown) {
             this.moveRight()
         } else {
-            this.play('idle');
+            this.body.acceleration.x = 0
+            this.play('idle')
         }
     }
 }

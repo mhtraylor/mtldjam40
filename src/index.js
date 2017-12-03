@@ -57,6 +57,7 @@ function create() {
   const { game } = this;
 
   this.physics.startSystem(Phaser.Physics.ARCADE)
+  this.physics.arcade.gravity.y = CONFIG.GAME.gravity
 
 
   // Map settings
@@ -71,19 +72,18 @@ function create() {
   pt = new Player(game, {
     pos   : [32, CONFIG.SCREEN.height - 50],
     anchor: [0.5, 1],
-    name  : 'patrick',
-    speed: {x: 2, y: 0},
+    name  : 'patrick'
   })
 
   pt.init()
 
+  window._pt = pt;
 
   // Initialize a bug
   pt = new Bug(game, {
     pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 56],
     anchor: [0.5, 1],
-    name  : 'bug',
-    speed: {x: 3, y: 0},
+    name  : 'bug'
   })
 
   pt.init()
