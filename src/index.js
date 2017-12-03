@@ -51,6 +51,8 @@ function preload() {
   this.game.load.spritesheet('snippet', 'assets/img/snippet_32x32.png', 32, 32, 11)
   this.game.load.spritesheet('ticket', 'assets/img/ticket_32x32.png', 32, 32, 1)
 
+  this.game.load.image('jira_board', 'assets/img/jira-board_352x144.png')
+
   this.game.load.tilemap('map', 'assets/img/metal-map.json', null, Phaser.Tilemap.TILED_JSON)
   this.game.load.image('tiles', 'assets/img/metal-ground_32x32.png')
   this.game.load.image('bg', 'assets/img/tile-bg_64x64.png')
@@ -77,10 +79,12 @@ function create() {
   layer_bg = map.createLayer('bg')
   layer_air = map.createLayer('air-layer')
   layer_ground = map.createLayer('ground-layer')
-  
 
-  // layer_air.debug = true
-  // layer_ground.debug = true
+  let board = game.add.sprite(
+    CONFIG.SCREEN.width / 2,
+    12, 'jira_board')
+
+  board.anchor.setTo(0.5, 0)
 
   map.setCollisionByExclusion([], true, layer_air)
   map.setCollision([0, 1], true, layer_ground)
@@ -125,7 +129,7 @@ function update() {
 
 
 function render() {
-  this.game.debug.spriteInfo(pt, 16, 16);
+  // this.game.debug.spriteInfo(pt, 16, 16);
   // game.debug.body(pt)
   // game.debug.body(bug)
 }
