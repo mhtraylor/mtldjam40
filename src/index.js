@@ -51,7 +51,7 @@ function create() {
   const layer_ground = map.createLayer('ground')
 
   pt = new Player(game, {
-    pos   : [64, 64],
+    pos   : [game.world.centerX - 64, CONFIG.SCREEN.height - 110],
     anchor: [0.5, 0.5],
     name  : 'patrick',
     speed: {x: 2, y: 0},

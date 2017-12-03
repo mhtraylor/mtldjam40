@@ -10,6 +10,9 @@ export class Player extends Entity {
             s: game.input.keyboard.addKey(Phaser.Keyboard.S),
             d: game.input.keyboard.addKey(Phaser.Keyboard.D),
         }
+
+        let anim = [ { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: false } ]
+        anim.forEach(x => this.addAnimation(x))
     }
 
     moveUp() {}
@@ -17,11 +20,15 @@ export class Player extends Entity {
     moveDown() {}
 
     moveLeft(){
+        this.scale.x = -1
         this.x -= this.config.speed.x
+        this.play('walk')
     }
 
     moveRight() {
+        this.scale.x = 1
         this.x += this.config.speed.x
+        this.play('walk')
     }
 
     update() {
