@@ -8,6 +8,7 @@ import { CONFIG } from '../constants'
 import { Entity } from './entity'
 import { Player } from './player'
 import { Bug } from './bug'
+import { Snippet } from './snippet'
 
 window._DEV_ = false;
 
@@ -29,8 +30,9 @@ const config = {
 
 const game = new Phaser.Game(config);
 
-let patrick;
 let pt;
+let bug;
+let snippet;
 
 
 
@@ -45,6 +47,11 @@ function preload() {
     ( 'bug'
     , 'assets/img/bug_32x32.png'
     , 32, 32, 4)
+  
+  this.game.load.spritesheet
+    ( 'snippet'
+    , 'assets/img/snippet_32x32.png'
+    , 32, 32, 10)
 
   this.game.load.tilemap('map', 'assets/img/metal-map.json', null, Phaser.Tilemap.TILED_JSON)
   this.game.load.image('tiles', 'assets/img/metal-ground_32x32.png')
@@ -79,14 +86,36 @@ function create() {
 
   window._pt = pt;
 
+
+
+
   // Initialize a bug
-  pt = new Bug(game, {
-    pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 56],
+  bug = new Bug(game, {
+    //pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 56],
+    pos   : [CONFIG.SCREEN.width/2, CONFIG.SCREEN.height - 56],
     anchor: [0.5, 1],
     name  : 'bug'
   })
 
-  pt.init()
+  bug.init()
+
+  window._bug = bug
+
+
+
+  
+  // Initialize a snippet
+  snippet = new Snippet(game, {
+    //pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 56],
+    pos   : [CONFIG.SCREEN.width/2 - 32, CONFIG.SCREEN.height/2 - 24],
+    anchor: [0.5, 1],
+    name  : 'snippet',
+    tint  : Math.random() * 0xffffff
+  })
+
+  snippet.init()
+
+  window._snippet = snippet
 
 }
 
@@ -94,6 +123,7 @@ function create() {
 
 function update() {
   pt.update()
+  bug.update()
 }
 
 
