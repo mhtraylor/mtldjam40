@@ -16,6 +16,13 @@ export class Player extends Entity {
             { name: 'idle', frames: [5, 6, 7, 8], fps: 4, loop: true }
         ]
 
+        this.config.MAX_SPEED = 128
+        this.config.ACCELERATION = 32
+        this.config.DRAG = 160
+        this.config.GRAVITY = 2600
+        this.config.JUMP_SPEED = -160
+
+
         anim.forEach(x => this.addAnimation(x))
     }
 
