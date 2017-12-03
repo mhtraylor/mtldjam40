@@ -20,13 +20,13 @@ export class Ticket {
     }
 
 
-    init(layer_ground) {
-        this.GenerateSnippets()
-        this.GenerateBugs(layer_ground)
+    init(layer_ground, pt) {
+        this.GenerateSnippets(pt)
+        this.GenerateBugs(layer_ground, pt)
     }
 
 
-    GenerateSnippets() {
+    GenerateSnippets(pt) {
         let x = CONFIG.SCREEN.width / 2 - 100
         let y = CONFIG.SCREEN.height / 2 - 100
 
@@ -39,7 +39,8 @@ export class Ticket {
             })
 
             snip.init()
-            this.snippets.push(snip);
+            snip.addCollision(pt)
+            this.snippets.push(snip)
 
             x += 60
             y += 60
@@ -47,7 +48,7 @@ export class Ticket {
     }
 
 
-    GenerateBugs(layer_ground) {
+    GenerateBugs(layer_ground, pt) {
         let x = CONFIG.SCREEN.width / 2 - 100
         let y = CONFIG.SCREEN.height - 100
 
@@ -60,8 +61,9 @@ export class Ticket {
             })
 
             bug.init()
-            bug.addCollision(layer_ground);
-            this.bugs.push(bug);
+            bug.addCollision(layer_ground)
+            bug.addCollision(pt)
+            this.bugs.push(bug)
 
             x += 64
         }

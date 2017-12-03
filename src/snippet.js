@@ -15,5 +15,25 @@ export class Snippet extends Entity {
         this.play('idle')
     }
 
-    update() {}
+    init() {
+        super.init()
+
+        this.body.onOverlap = new Phaser.Signal();
+        this.body.onOverlap.add(this.collisionDetected, this);
+    }
+
+    update() {
+        this.collisions.forEach(col =>
+            this.game.physics.arcade.collide(this, col, null, (plr, col) => {
+                return true
+            }))
+    }
+
+
+
+
+    
+    collisionDetected(spriteA, spriteB) {
+        console.log(spriteA)
+    }
 }

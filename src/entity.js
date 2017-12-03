@@ -40,5 +40,4 @@ export class Entity extends Phaser.Sprite {
     play(name) {
         this.animations.play(name)
     }
-
 }

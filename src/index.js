@@ -119,7 +119,7 @@ function create() {
     numBugs: 2
   })
 
-  ticket.init(layer_ground)
+  ticket.init(layer_ground, pt)
   window._ticket = ticket
 
 
