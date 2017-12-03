@@ -77,6 +77,10 @@ function create() {
   layer_air = map.createLayer('air-layer')
   layer_ground = map.createLayer('ground-layer')
 
+  // layer_air.debug = true
+  // layer_ground.debug = true
+
+  map.setCollisionByExclusion([], true, layer_air)
   map.setCollision([0, 1], true, layer_ground)
 
   // Initialize player
@@ -87,6 +91,7 @@ function create() {
   })
 
   pt.init([48, 42, 8, 8])
+  pt.addCollision(layer_air)
   pt.addCollision(layer_ground)
 
   window._pt = pt;

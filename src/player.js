@@ -46,7 +46,12 @@ export class Player extends Entity {
 
     update() {
         this.collisions.forEach(col =>
-            this.game.physics.arcade.collide(this, col))
+            this.game.physics.arcade.collide(this, col, null, (plr, col) => {
+                if (col.layer && col.layer.name === 'air-layer') {
+                    return plr.body.deltaY() >= 0
+                }
+                return true
+            }))
 
         if (this.keys.w.isDown) {
             this.moveUp()
