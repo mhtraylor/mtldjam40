@@ -6,8 +6,7 @@ import pkg from '../package.json';
 import { CONFIG } from '../constants'
 
 import { Entity } from './entity'
-import { WASD_KEYS } from './input'
-import { PlayerController } from './character-controller'
+import { Player } from './player';
 
 // This is the entry point of your game.
 
@@ -27,7 +26,6 @@ const config = {
 
 const game = new Phaser.Game(config);
 
-let keys;
 let patrick;
 let pt;
 
@@ -45,8 +43,6 @@ function preload() {
 function create() {
   const { game } = this;
 
-  keys = game.input.keyboard.createCursorKeys()
-
   const map = this.game.add.tilemap('map')
   map.addTilesetImage('platform')
 
@@ -63,13 +59,15 @@ function create() {
   patrick.animations.add('walk')
   patrick.animations.play('walk', 8, true)
 
-  pt = new Entity(game, [64, 64], [0.5, 0.5],'patrick')
+  pt = new Player(game, {
+    pos   : [64, 64],
+    anchor: [0.5, 0.5],
+    name  : 'patrick',
+    speed: {x: 2, y: 0},
+  })
 
-  pt.addComponent(
-    PlayerController(game, WASD_KEYS, {
-      speedX: 2
-    })
-  )
+  pt.init()
+
 }
 
 function update() {
