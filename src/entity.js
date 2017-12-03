@@ -20,8 +20,8 @@ export class Entity extends Phaser.Sprite {
         this.game.add.existing(this)
         this.game.physics.enable(this, Phaser.Physics.ARCADE)
 
-        this.body.maxVelocity.setTo(this.config.MAX_SPEED || 0, this.config.MAX_SPEED || 0) // x,y
-        this.body.drag.setTo(this.config.DRAG || 0, this.config.DRAG || 0) // x,y
+        this.body.maxVelocity.setTo(this.config.MAX_SPEED_X || 0, this.config.MAX_SPEED_Y || 0) // x,y
+        this.body.drag.setTo(this.config.DRAG_X || 0, this.config.DRAG_Y || 0) // x,y
 
         if (bodySize) {
             this.body.setSize(bodySize[0], bodySize[1], bodySize[2], bodySize[3])

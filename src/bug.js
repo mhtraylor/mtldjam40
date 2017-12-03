@@ -10,9 +10,11 @@ export class Bug extends Entity {
 
         this.tint = this.config.tint || 0xFFFFFF;
 
-        this.config.MAX_SPEED = this.GetRandomSpeed()
+        this.config.MAX_SPEED_X = this.GetRandomSpeed()
+        this.config.MAX_SPEED_Y = 999
         this.config.ACCELERATION = this.GetRandomAcceleration()
-        this.config.DRAG = 300
+        this.config.DRAG_X = 300
+        this.config.DRAG_Y = 0
         this.config.JUMP_SPEED = -4000
 
         this.directionFacing = EntityFacingDirection.LEFT

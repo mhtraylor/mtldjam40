@@ -21,10 +21,12 @@ export class Player extends Entity {
         this.isJumping = false
         this.isTouchingGround = false
 
-        this.config.MAX_SPEED = 175
+        this.config.MAX_SPEED_X = 175
+        this.config.MAX_SPEED_Y = 1000
         this.config.ACCELERATION = 400
-        this.config.DRAG = 300
-        this.config.JUMP_SPEED = -1000
+        this.config.DRAG_X = 300
+        this.config.DRAG_Y = 0
+        this.config.JUMP_SPEED = -500
 
         anim.forEach(x => this.addAnimation(x))
     }
@@ -91,7 +93,7 @@ export class Player extends Entity {
         // Vertical movement
         // this.isTouchingGround = true
 
-        if (this.isTouchingGround && this.isUpAllowed(500)) {
+        if (this.isTouchingGround && this.isUpAllowed(100)) {
             this.moveUp()
         }
     }
