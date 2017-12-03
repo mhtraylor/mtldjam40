@@ -56,11 +56,12 @@ function create() {
     'patrick'
   )
 
+  patrick.anchor.setTo(0.5, 0.5)
   patrick.animations.add('walk')
   patrick.animations.play('walk', 8, true)
 
   pt = new Player(game, {
-    pos   : [64, 64],
+    pos   : [game.world.centerX - 64, CONFIG.SCREEN.height - 110],
     anchor: [0.5, 0.5],
     name  : 'patrick',
     speed: {x: 2, y: 0},

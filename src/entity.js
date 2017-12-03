@@ -11,4 +11,14 @@ export class Entity extends Phaser.Sprite {
         this.game.add.existing(this)
     }
 
+    addAnimation(anim) {
+        this.animations.add(
+            anim.name, anim.frames, anim.fps, anim.loop
+        )
+    }
+
+    play(name) {
+        this.animations.play(name)
+    }
+
 }
