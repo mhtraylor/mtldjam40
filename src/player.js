@@ -93,8 +93,6 @@ export class Player extends Entity {
 
         if (this.isTouchingGround && this.isUpAllowed(500)) {
             this.moveUp()
-        } else {
-            this.play('idle')
         }
     }
 
