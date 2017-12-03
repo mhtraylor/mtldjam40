@@ -56,6 +56,28 @@
          "spacing":0,
          "tilecount":2,
          "tileheight":32,
+         "tileproperties":
+            {
+             "0":
+                {
+                 "platform":"GROUND"
+                },
+             "1":
+                {
+                 "platform":"AIR"
+                }
+            },
+         "tilepropertytypes":
+            {
+             "0":
+                {
+                 "platform":"string"
+                },
+             "1":
+                {
+                 "platform":"string"
+                }
+            },
          "tilewidth":32
         }],
  "tilewidth":32,
