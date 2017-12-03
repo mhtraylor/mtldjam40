@@ -36,22 +36,22 @@ function preload() {
     , 'assets/img/patrick_64x64.png'
     , 64, 64, 8)
 
-    this.game.load.tilemap('map', 'assets/img/map.json', null, Phaser.Tilemap.TILED_JSON)
-    this.game.load.image('platform', 'assets/img/ground-sprite.png')
+    this.game.load.tilemap('map', 'assets/img/metal-map.json', null, Phaser.Tilemap.TILED_JSON)
+    this.game.load.image('tiles', 'assets/img/metal-ground_32x32.png')
 }
 
 function create() {
   const { game } = this;
 
   const map = this.game.add.tilemap('map')
-  map.addTilesetImage('platform')
+  map.addTilesetImage('tiles')
 
-  const layer_air = map.createLayer('air')
+  const layer_air = map.createLayer('air-layer')
 
-  const layer_ground = map.createLayer('ground')
+  const layer_ground = map.createLayer('ground-layer')
 
   pt = new Player(game, {
-    pos   : [game.world.centerX - 64, CONFIG.SCREEN.height - 110],
+    pos   : [game.world.centerX - 64, CONFIG.SCREEN.height - 82],
     anchor: [0.5, 0.5],
     name  : 'patrick',
     speed: {x: 2, y: 0},
