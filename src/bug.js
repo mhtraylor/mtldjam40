@@ -77,7 +77,7 @@ export class Bug extends Entity {
         chance = this.game.rnd.realInRange(1, 3)
 
         // 50% chance to change direction
-        if (chance > 2) return true
+        if (chance > 2) return false
 
         return false
     }

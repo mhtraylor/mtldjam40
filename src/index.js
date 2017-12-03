@@ -76,7 +76,7 @@ function create() {
 
   layer_air = map.createLayer('air-layer')
   layer_ground = map.createLayer('ground-layer')
-  layer_ground.debug = true
+
   map.setCollision([0, 1], true, layer_ground)
 
   // Initialize player
@@ -86,8 +86,8 @@ function create() {
     name  : 'patrick'
   })
 
+  pt.init([48, 42, 8, 8])
   pt.addCollision(layer_ground)
-  pt.init()
 
   window._pt = pt;
 
@@ -98,8 +98,8 @@ function create() {
     name  : 'bug'
   })
 
+  bug.init([32, 24, 0, 0])
   bug.addCollision(layer_ground)
-  bug.init()
 
 }
 
@@ -110,6 +110,6 @@ function update() {
 
 function render() {
   this.game.debug.spriteInfo(pt, 16, 16);
-  game.debug.body(pt)
-  game.debug.body(bug)
+  // game.debug.body(pt)
+  // game.debug.body(bug)
 }

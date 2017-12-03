@@ -21,7 +21,6 @@ export class Player extends Entity {
         this.config.DRAG = 300
         this.config.JUMP_SPEED = -4000
 
-
         anim.forEach(x => this.addAnimation(x))
     }
 
