@@ -53,14 +53,23 @@ export class Player extends Entity {
         this.body.acceleration.x = this.config.ACCELERATION
 
         this.directionFacing = EntityFacingDirection.RIGHT
-        
+
         if (!this.isJumping)
             this.play('walk')
     }
 
     update() {
         this.collisions.forEach(col =>
-            this.game.physics.arcade.collide(this, col, null, (plr, col) => {
+            this.game.physics.arcade.collide(this, col,
+                (plr, col) => {
+                    let isground = col.layer && col.layer.name === 'ground-layer'
+                    let isair    = col.layer && col.layer.name === 'air-layer'
+                    if (isground || isair) {
+                        plr.isTouchingGround = true
+                        plr.isJumping = false
+                    }
+                },
+                (plr, col) => {
                 if (col.layer && col.layer.name === 'air-layer') {
                     return plr.body.deltaY() >= 0
                 }
@@ -75,11 +84,12 @@ export class Player extends Entity {
             this.moveRight()
         } else {
             this.body.acceleration.x = 0
+            this.play('idle')
         }
 
 
         // Vertical movement
-        this.isTouchingGround = true
+        // this.isTouchingGround = true
 
         if (this.isTouchingGround && this.isUpAllowed(500)) {
             this.moveUp()
