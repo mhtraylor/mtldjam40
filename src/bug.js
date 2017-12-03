@@ -8,6 +8,8 @@ export class Bug extends Entity {
             { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: true }
         ]
 
+        this.tint = this.config.tint || 0xFFFFFF;
+
         this.config.MAX_SPEED = this.GetRandomSpeed()
         this.config.ACCELERATION = this.GetRandomAcceleration()
         this.config.DRAG = 300

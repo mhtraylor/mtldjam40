@@ -9,6 +9,7 @@ import { Entity } from './entity'
 import { Player } from './player'
 import { Bug } from './bug'
 import { Snippet } from './snippet'
+import { Ticket } from './ticket'
 
 window._DEV_ = false;
 
@@ -33,8 +34,7 @@ const config = {
 const game = new Phaser.Game(config);
 
 let pt;
-let bug;
-let snippet;
+let ticket;
 
 let layer_air
 let layer_ground
@@ -45,7 +45,7 @@ function preload() {
   this.game.load.spritesheet
     ( 'patrick'
     , 'assets/img/patrick_64x64.png'
-    , 64, 64, 8)
+    , 64, 64, 9)
 
   this.game.load.spritesheet
     ( 'bug'
@@ -96,21 +96,38 @@ function create() {
 
   window._pt = pt;
 
+
+
   // Initialize a bug
-  bug = new Bug(game, {
-    pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 64],
-    anchor: [0.5, 1],
-    name  : 'bug'
+  // bug = new Bug(game, {
+  //   pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 64],
+  //   anchor: [0.5, 1],
+  //   name  : 'bug'
+  // })
+
+  // bug.addCollision(layer_ground)
+  // bug.init()
+
+
+
+
+
+  // Initialize Ticket
+  ticket = new Ticket(game, {
+    numSnippets: 4,
+    name: 'ticket-1',
+    numBugs: 2
   })
 
-  bug.init([32, 24, 0, 0])
-  bug.addCollision(layer_ground)
+  ticket.init(layer_ground)
+  window._ticket = ticket
+
+
 
 }
 
 function update() {
   pt.update()
-  bug.update()
 }
 
 function render() {

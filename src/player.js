@@ -1,4 +1,4 @@
-import { Entity } from "./entity";
+import { Entity, EntityFacingDirection } from "./entity";
 
 export class Player extends Entity {
     constructor(game, config) {
@@ -12,20 +12,28 @@ export class Player extends Entity {
         }
 
         let anim = [
+            { name: 'jump', frames: [8], fps: 1, loop: false },
             { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: false },
-            { name: 'idle', frames: [5, 6, 7, 8], fps: 4, loop: true }
+            { name: 'idle', frames: [4, 5, 6, 7], fps: 4, loop: true }
         ]
+
+        this.directionFacing = EntityFacingDirection.RIGHT
+        this.isJumping = false
+        this.isTouchingGround = false
 
         this.config.MAX_SPEED = 175
         this.config.ACCELERATION = 400
         this.config.DRAG = 300
-        this.config.JUMP_SPEED = -4000
+        this.config.JUMP_SPEED = -1000
 
         anim.forEach(x => this.addAnimation(x))
     }
 
     moveUp() {
+        this.isJumping = true
         this.body.velocity.y = this.config.JUMP_SPEED
+
+        this.play('jump')
     }
 
     moveDown() {}
@@ -34,14 +42,20 @@ export class Player extends Entity {
         this.scale.x = -1
         this.body.acceleration.x = -this.config.ACCELERATION
 
-        this.play('walk')
+        this.directionFacing = EntityFacingDirection.LEFT
+
+        if (!this.isJumping)
+            this.play('walk')
     }
 
     moveRight() {
         this.scale.x = 1
         this.body.acceleration.x = this.config.ACCELERATION
 
-        this.play('walk')
+        this.directionFacing = EntityFacingDirection.RIGHT
+        
+        if (!this.isJumping)
+            this.play('walk')
     }
 
     update() {
@@ -53,17 +67,28 @@ export class Player extends Entity {
                 return true
             }))
 
-        if (this.keys.w.isDown) {
-            this.moveUp()
-        } else if (this.keys.a.isDown) {
+
+        // Horizontal movement
+        if (this.keys.a.isDown) {
             this.moveLeft()
-        } else if (this.keys.s.isDown) {
-            this.moveDown()
         } else if (this.keys.d.isDown) {
             this.moveRight()
         } else {
             this.body.acceleration.x = 0
-            this.play('idle')
         }
+
+
+        // Vertical movement
+        this.isTouchingGround = true
+
+        if (this.isTouchingGround && this.isUpAllowed(500)) {
+            this.moveUp()
+        }
+    }
+
+
+    isUpAllowed(duration) {
+        let isActive = this.game.input.keyboard.downDuration(Phaser.Keyboard.W, duration)
+        return isActive
     }
 }
