@@ -11,7 +11,7 @@ export class Player extends Entity {
             d: game.input.keyboard.addKey(Phaser.Keyboard.D),
         }
 
-        let anim = [ 
+        let anim = [
             { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: false },
             { name: 'idle', frames: [5, 6, 7, 8], fps: 4, loop: true }
         ]
@@ -46,6 +46,9 @@ export class Player extends Entity {
     }
 
     update() {
+        this.collisions.forEach(col =>
+            this.game.physics.arcade.collide(this, col))
+
         if (this.keys.w.isDown) {
             this.moveUp()
         } else if (this.keys.a.isDown) {

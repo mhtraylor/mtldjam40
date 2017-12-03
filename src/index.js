@@ -22,6 +22,8 @@ const config = {
   state: {
     preload,
     create,
+    update,
+    render,
   },
   transparent: false,
   antialias: true,
@@ -34,6 +36,8 @@ let pt;
 let bug;
 let snippet;
 
+let layer_air
+let layer_ground
 
 
 function preload() {
@@ -47,7 +51,7 @@ function preload() {
     ( 'bug'
     , 'assets/img/bug_32x32.png'
     , 32, 32, 4)
-  
+
   this.game.load.spritesheet
     ( 'snippet'
     , 'assets/img/snippet_32x32.png'
@@ -55,10 +59,9 @@ function preload() {
 
   this.game.load.tilemap('map', 'assets/img/metal-map.json', null, Phaser.Tilemap.TILED_JSON)
   this.game.load.image('tiles', 'assets/img/metal-ground_32x32.png')
+
+  window._DEV_ = true
 }
-
-
-
 
 function create() {
   const { game } = this;
@@ -71,65 +74,42 @@ function create() {
   const map = this.game.add.tilemap('map')
   map.addTilesetImage('tiles')
 
-  const layer_air = map.createLayer('air-layer')
-  const layer_ground = map.createLayer('ground-layer')
-
+  layer_air = map.createLayer('air-layer')
+  layer_ground = map.createLayer('ground-layer')
+  layer_ground.debug = true
+  map.setCollision([0, 1], true, layer_ground)
 
   // Initialize player
   pt = new Player(game, {
-    pos   : [32, CONFIG.SCREEN.height - 50],
+    pos   : [32, CONFIG.SCREEN.height - 160],
     anchor: [0.5, 1],
     name  : 'patrick'
   })
 
+  pt.addCollision(layer_ground)
   pt.init()
 
   window._pt = pt;
 
-
-
-
   // Initialize a bug
   bug = new Bug(game, {
-    //pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 56],
-    pos   : [CONFIG.SCREEN.width/2, CONFIG.SCREEN.height - 56],
+    pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 64],
     anchor: [0.5, 1],
     name  : 'bug'
   })
 
+  bug.addCollision(layer_ground)
   bug.init()
 
-  window._bug = bug
-
-
-
-  
-  // Initialize a snippet
-  snippet = new Snippet(game, {
-    //pos   : [CONFIG.SCREEN.width - 32, CONFIG.SCREEN.height - 56],
-    pos   : [CONFIG.SCREEN.width/2 - 32, CONFIG.SCREEN.height/2 - 24],
-    anchor: [0.5, 1],
-    name  : 'snippet',
-    tint  : Math.random() * 0xffffff
-  })
-
-  snippet.init()
-
-  window._snippet = snippet
-
 }
-
-
 
 function update() {
   pt.update()
   bug.update()
 }
 
-
-
 function render() {
-  if (window._DEV_) {
-    this.game.debug.spriteInfo(pt, 16, 16);
-  }
+  this.game.debug.spriteInfo(pt, 16, 16);
+  game.debug.body(pt)
+  game.debug.body(bug)
 }

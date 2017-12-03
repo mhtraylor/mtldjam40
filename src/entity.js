@@ -11,6 +11,8 @@ export class Entity extends Phaser.Sprite {
         this.config = config
 
         this.directionFacing = EntityFacingDirection.RIGHT
+
+        this.collisions = []
     }
 
     init() {
@@ -25,6 +27,10 @@ export class Entity extends Phaser.Sprite {
         this.animations.add(
             anim.name, anim.frames, anim.fps, anim.loop
         )
+    }
+
+    addCollision(col) {
+        this.collisions.push(col)
     }
 
     play(name) {

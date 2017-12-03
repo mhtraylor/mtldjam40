@@ -14,7 +14,7 @@ export class Bug extends Entity {
         this.config.JUMP_SPEED = -4000
 
         this.directionFacing = EntityFacingDirection.LEFT
-        
+
         this.directionalChangeTimer = this.game.time.create(false)
         this.directionalChangeTimer.loop(1000, this.UpdateBugDirection, this)
         this.directionalChangeTimer.start()
@@ -42,7 +42,10 @@ export class Bug extends Entity {
         this.directionFacing = EntityFacingDirection.RIGHT
     }
 
-    update() {}
+    update() {
+        this.collisions.forEach(col =>
+            this.game.physics.arcade.collide(this, col))
+    }
 
 
 
@@ -51,7 +54,7 @@ export class Bug extends Entity {
             this.GetNewDirection()
         }
     }
-    
+
     GetRandomSpeed() {
         return this.game.rnd.realInRange(50, 100)
     }
@@ -66,7 +69,7 @@ export class Bug extends Entity {
         // switch(this.directionFacing) {
         //     case EntityFacingDirection.LEFT:
         //         break;
-            
+
         //     case EntityFacingDirection.RIGHT:
         //         break;
         // }
@@ -84,7 +87,7 @@ export class Bug extends Entity {
             case EntityFacingDirection.LEFT:
                 this.moveRight()
                 break;
-            
+
             case EntityFacingDirection.RIGHT:
                 this.moveLeft()
                 break;

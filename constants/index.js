@@ -8,7 +8,7 @@ const CONFIG = {
         height: 480,
     },
     GAME: {
-        gravity: 0
+        gravity: 2400
     }
 }
 
