@@ -13,6 +13,7 @@ export class Entity extends Phaser.Sprite {
         this.directionFacing = EntityFacingDirection.RIGHT
 
         this.collisions = []
+        this.overlaps = []
     }
 
     init(bodySize) {
@@ -35,6 +36,10 @@ export class Entity extends Phaser.Sprite {
 
     addCollision(col) {
         this.collisions.push(col)
+    }
+
+    addOverlap(ov) {
+        this.overlaps.push(ov)
     }
 
     play(name) {

@@ -5,35 +5,31 @@ export class Snippet extends Entity {
         super(game, config)
 
         let anim = [
-            { name: 'idle', frames: [6, 7, 8, 9], fps: 8, loop: true },
-            { name: 'collect', frames: [0, 1, 2, 3, 4, 5], fps: 8, loop: false }
+            { name: 'idle', frames: [7, 8, 9, 10], fps: 8, loop: true },
+            { name: 'collect', frames: [0, 1, 2, 3, 4, 5, 6], fps: 8, loop: false }
         ]
 
         anim.forEach(x => this.addAnimation(x))
+
+        this.isCollected = false;
 
         this.tint = this.config.tint
         this.play('idle')
     }
 
-    init() {
-        super.init()
-
-        this.body.onOverlap = new Phaser.Signal();
-        this.body.onOverlap.add(this.collisionDetected, this);
-    }
-
     update() {
-        this.collisions.forEach(col =>
-            this.game.physics.arcade.collide(this, col, null, (plr, col) => {
-                return true
-            }))
+        this.overlaps.forEach( (ov, index) =>
+            this.game.physics.arcade.overlap(this, ov, (snp, plr) => {
+                this.overlaps.splice(index, 1)
+                this.CollectSnippet()
+            }), null)
     }
 
 
+    CollectSnippet() {
+        this.isCollected = true
+        this.play('collect')
 
-
-    
-    collisionDetected(spriteA, spriteB) {
-        console.log(spriteA)
+        // trigger event to update the ticket snippet quantity
     }
 }
