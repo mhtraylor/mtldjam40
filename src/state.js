@@ -35,6 +35,7 @@ export class Load extends Phaser.State {
         this.game.load.spritesheet('ticket', 'assets/img/ticket_32x32.png', 32, 32, 1)
         this.game.load.image('patrick_head', 'assets/img/patrick-life-head.png')
         this.game.load.image('jira_board', 'assets/img/jira-whiteboard_256x96.png')
+        this.game.load.image('pause', 'assets/img/pause_text.png')
 
         this.game.load.tilemap('map', 'assets/img/metal-map.json', null, Phaser.Tilemap.TILED_JSON)
         this.game.load.image('tiles', 'assets/img/metal-ground_32x32.png')
@@ -83,6 +84,7 @@ export class Main {
         this.gameCtrl.ticketDisplayManager = new TicketController(this.gameCtrl, {
             whiteboard: whiteboard
         })
+
         // Setup sprite entities
         this.gameCtrl.addEntity('patrick',
             new Player(
@@ -94,6 +96,11 @@ export class Main {
                 }
             )
         )
+
+        // Setup images
+        this.gameCtrl.addImage('pause',
+            [CONFIG.SCREEN.width / 2, CONFIG.SCREEN.height / 2],
+            [0.5, 0.5])
 
         // Initialize all uninitalized entities
         this.gameCtrl.initialize()

@@ -1,8 +1,10 @@
 ----------------------------------------------
 MATTHEW
 
-scoring algorithm
-clean up
+-- Main Menu
+-- Score
+-- Levels & Done states
+-- Deployment
 
 
 
@@ -41,3 +43,4 @@ ticket manager + ticket placement on whiteboard
 explode spawn snippets from ticket on board (x and y velocity)
     - if side wall, bounce off
 game states (loading, pause, etc)
+Pause screen
