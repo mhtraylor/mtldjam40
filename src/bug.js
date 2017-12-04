@@ -5,7 +5,8 @@ export class Bug extends Entity {
         super(game, config)
 
         let anim = [
-            { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: true }
+            { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: true },
+            { name: 'die', frames: [4, 5, 6, 7, 8, 9], fps: 12, loop: false }
         ]
 
         this.tint = this.config.tint || 0xFFFFFF;
@@ -16,6 +17,8 @@ export class Bug extends Entity {
         this.config.DRAG_X = 300
         this.config.DRAG_Y = 0
         this.config.JUMP_SPEED = -4000
+        this.config.BOUNCE_X = 0
+        this.config.BOUNCE_Y = 0.5
 
         this.directionFacing = EntityFacingDirection.LEFT
 
@@ -48,9 +51,46 @@ export class Bug extends Entity {
 
     update() {
         this.collisions.forEach(col =>
-            this.game.physics.arcade.collide(this, col))
+            this.game.physics.arcade.collide(this, col,
+                (bug, col) => {
+                    if (col.key === 'patrick') {
+                        if (bug.body.touching.up) {
+                            col.moveUp()
+                            this.directionalChangeTimer.stop()
+                            this.kill()
+                        } else if (bug.body.touching.left) {
+                            col.body.velocity.x = -500
+                            col.body.velocity.y = -250
+                            col.TakeDamage()
+                        } else if (bug.body.touching.right) {
+                            col.body.velocity.x = 500
+                            col.body.velocity.y = -250
+                            col.TakeDamage()
+                        }
+                    }
+                }
+            ))
     }
 
+
+    kill() {
+        this.alive = false
+        this.body.acceleration.setTo(0,0)
+        this.body.velocity.setTo(0,0)
+        this.body.enable = false
+        this.animations.play('die')
+        this.events.onAnimationComplete.addOnce(function() {
+            this.exists = true
+            this.visible = true
+            this.events.destroy()
+        }, this)
+    
+        if (this.events) {
+            this.events.onKilled$dispatch(this)
+        }
+    
+        return this
+    }
 
 
     UpdateBugDirection() {

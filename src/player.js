@@ -14,8 +14,12 @@ export class Player extends Entity {
         let anim = [
             { name: 'jump', frames: [8], fps: 1, loop: false },
             { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: false },
-            { name: 'idle', frames: [4, 5, 6, 7], fps: 4, loop: true }
+            { name: 'idle', frames: [4, 5, 6, 7], fps: 4, loop: true },
+            { name: 'hit', frames: [9], fps: 1, loop: false },
+            { name: 'die', frames: [10, 11, 12, 13, 14, 15, 16], fps: 8, loop: false }
         ]
+
+        this.health = 5
 
         this.directionFacing = EntityFacingDirection.RIGHT
         this.isJumping = false
@@ -24,9 +28,12 @@ export class Player extends Entity {
         this.config.MAX_SPEED_X = 175
         this.config.MAX_SPEED_Y = 1000
         this.config.ACCELERATION = 400
-        this.config.DRAG_X = 300
+        this.config.DRAG_X = 600
         this.config.DRAG_Y = 0
         this.config.JUMP_SPEED = -500
+        this.config.BOUNCE_X = 0
+        this.config.BOUNCE_Y = 0
+
 
         anim.forEach(x => this.addAnimation(x))
     }
@@ -60,6 +67,7 @@ export class Player extends Entity {
             this.play('walk')
     }
 
+
     update() {
         this.collisions.forEach(col =>
             this.game.physics.arcade.collide(this, col,
@@ -78,6 +86,8 @@ export class Player extends Entity {
                 return true
             }))
 
+        if (!this.alive) return
+
 
         // Horizontal movement
         if (this.keys.a.isDown) {
@@ -86,7 +96,9 @@ export class Player extends Entity {
             this.moveRight()
         } else {
             this.body.acceleration.x = 0
-            this.play('idle')
+
+            if (!this.isJumping)
+                this.play('idle')
         }
 
 
@@ -102,5 +114,32 @@ export class Player extends Entity {
     isUpAllowed(duration) {
         let isActive = this.game.input.keyboard.downDuration(Phaser.Keyboard.W, duration)
         return isActive
+    }
+
+
+    TakeDamage() {
+        this.health--
+
+        if (this.health < 1) {
+            this.kill()
+        }
+    }
+
+
+    kill() {
+        this.alive = false
+        this.body.enable = false
+        this.animations.play('die')
+        this.events.onAnimationComplete.addOnce(function() {
+            this.exists = true
+            this.visible = true
+            this.events.destroy()
+        }, this)
+    
+        if (this.events) {
+            this.events.onKilled$dispatch(this)
+        }
+    
+        return this
     }
 }

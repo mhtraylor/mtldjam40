@@ -63,6 +63,7 @@ export class Ticket extends Phaser.Sprite {
 
         if (allSnippets) {
             this.currentStatus = TicketStatus.QA
+            console.log('all snippets collected --> move to qa')
         } else {
             if (this.currentStatus !== TicketStatus.IN_PROGRESS) this.currentStatus = TicketStatus.IN_PROGRESS
         }
@@ -73,12 +74,12 @@ export class Ticket extends Phaser.Sprite {
         let allBugs = true
 
         this.bugs.forEach(bug => {
-            if (!bug.isDead) allBugs = false
+            if (bug.alive) allBugs = false
         })
 
         if (allBugs) {
             this.currentStatus = TicketStatus.DONE
-
+            console.log('all bugs killed --> move to done')
             // trigger a done event for ticket
         }
     }
@@ -120,7 +121,7 @@ export class Ticket extends Phaser.Sprite {
                 tint  : this.tint
             })
 
-            bug.init()
+            bug.init([24, 17, 4, 9])
             bug.addCollision(layer_ground)
             bug.addCollision(pt)
             this.bugs.push(bug)
