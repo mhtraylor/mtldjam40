@@ -1,0 +1,24 @@
+{ "frames": {
+   "jira-whiteboard_256x96.ase": {
+    "frame": { "x": 0, "y": 0, "w": 256, "h": 96 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 96 },
+    "sourceSize": { "w": 256, "h": 96 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.13",
+  "image": "/var/www/html/jam/mtldjam40/public/assets/img/jira-whiteboard_256x96.png",
+  "format": "RGBA8888",
+  "size": { "w": 256, "h": 96 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}
