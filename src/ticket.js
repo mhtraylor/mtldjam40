@@ -14,8 +14,8 @@ export const TicketStatus = {
 
 
 export class Ticket extends Phaser.Sprite {
-    constructor(game, config) {
-        super(game, config.pos[0], config.pos[1], config.name)
+    constructor(gameCtrl, config) {
+        super(gameCtrl.game, config.pos[0], config.pos[1], config.name)
 
         this.anchor.setTo(config.anchor[0], config.anchor[1])
         this.config = config || {
@@ -24,8 +24,8 @@ export class Ticket extends Phaser.Sprite {
         }
 
         // CHANGE NUMBUGS TO ALGORITHM GENERATED BASED ON SNIPPETS COMPLETED
-
-        this.game = game
+        this.gameCtrl = gameCtrl
+        this.game = gameCtrl.game
 
         this.tint = this.config.tint || 0xffffff
 
@@ -35,17 +35,16 @@ export class Ticket extends Phaser.Sprite {
         this.currentStatus = TicketStatus.TODO
 
         // Bug Spawn Timer
-        this.bugSpawnTimer = this.game.time.create(false)
+        this.bugSpawnTimer = this.gameCtrl.game.time.create(false)
         this.bugSpawnTimer.loop(3000, this.ChanceSpawnBug, this)
         this.bugSpawnTimer.start()
     }
 
 
-    init(layer_air, layer_ground, pt) {
-        this.game.add.existing(this)
-
-        this.GenerateSnippets(layer_air, layer_ground, pt)
-        this.GenerateBug(layer_ground, pt)
+    init() {
+        this.gameCtrl.game.add.existing(this)
+        this.GenerateSnippets()
+        this.GenerateBug()
     }
 
 
@@ -91,7 +90,7 @@ export class Ticket extends Phaser.Sprite {
     }
 
 
-    GenerateSnippets(layer_air, layer_ground, pt) {
+    GenerateSnippets() {
         let x = CONFIG.WORLD.width / 2
         let y = 96
 
@@ -107,9 +106,9 @@ export class Ticket extends Phaser.Sprite {
             })
 
             snip.init([19, 23, 6, 10])
-            snip.addCollision(layer_air)
-            snip.addCollision(layer_ground)
-            snip.addOverlap(pt)
+            snip.addCollision(this.gameCtrl.layers.get('air-layer'))
+            snip.addCollision(this.gameCtrl.layers.get('ground-layer'))
+            snip.addOverlap(this.gameCtrl.entities.get('patrick'))
 
             this.snippets.push(snip)
         }
@@ -118,25 +117,22 @@ export class Ticket extends Phaser.Sprite {
 
     ChanceSpawnBug() {
         // need better algorithm
-        
+
     }
 
 
-    GenerateBug(layer_ground, pt) {
+    GenerateBug() {
         let x = this.game.rnd.realInRange(32, CONFIG.WORLD.width - 32)
         let y = CONFIG.SCREEN.height - 100
 
-        let bug = new Bug(this.game, {
+        let bug = new Bug(this.gameCtrl, {
             pos   : [x, y],
             anchor: [0.5, 1],
             name  : 'bug',
             tint  : this.tint
         })
 
-        bug.init([24, 17, 4, 9])
-        bug.addCollision(layer_ground)
-        bug.addCollision(pt)
-        bug.body.collideWorldBounds = true
+        bug.init()
         this.bugs.push(bug)
     }
 }
@@ -150,8 +146,8 @@ export const TicketColors = [
 ]
 
 export class TicketController {
-    constructor(game, config) {
-        this.game = game
+    constructor(gameCtrl, config) {
+        this.gameCtrl = gameCtrl
 
         this.tickets = new Map()
         this.tickets.set(TicketStatus.TODO, [])
@@ -169,23 +165,24 @@ export class TicketController {
         }
     }
 
-    ticketInitializer(initializer) {
-        this.initializer = initializer
-    }
-
     spawn(cnt) {
         for (let i=0; i<cnt; i++) {
             let ix = (Math.floor((i / (cnt/2))) * 32) + this.config.TICKET_BASE_POS.x
             let iy = ((i % (cnt/2)) * 32) + this.config.TICKET_BASE_POS.y
-            let ticket = new Ticket(this.game, {
+
+            let ticket = new Ticket(this.gameCtrl, {
                 anchor: [0.5, 0.5],
-                numSnippets: this.game.rnd.realInRange(1, 8), // this should be based on level
+                numSnippets: this.gameCtrl.game.rnd.realInRange(1, 8), // this should be based on level
                 name: 'ticket',
                 tint: this.getRandomAvailableColor(),
                 pos: [ix, iy]
               })
 
-            this.initializer(ticket)
+            ticket.init()
+            for (const [k, v] in this.tickets) {
+                if (TicketStatus.TODO === k)
+                    v.push(ticket)
+            }
         }
     }
 
@@ -200,7 +197,7 @@ export class TicketController {
 
         for (let i = 0; ticketColors.length; i++) {
             let index = Math.floor(Math.random() * ticketColors.length)
-            
+
             if (ticketColors[index].inUse) {
                 ticketColors.splice(index, 1)
             } else {

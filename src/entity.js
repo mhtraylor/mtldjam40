@@ -14,6 +14,8 @@ export class Entity extends Phaser.Sprite {
 
         this.collisions = []
         this.overlaps = []
+
+        this.initialized = false
     }
 
     init(bodySize) {
@@ -27,6 +29,8 @@ export class Entity extends Phaser.Sprite {
         if (bodySize) {
             this.body.setSize(bodySize[0], bodySize[1], bodySize[2], bodySize[3])
         }
+
+        this.initialized = true
     }
 
     addAnimation(anim) {

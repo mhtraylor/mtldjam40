@@ -19,6 +19,9 @@ export class Snippet extends Entity {
         this.play('idle')
     }
 
+    init() {
+        super.init([19, 23, 6, 10])
+    }
 
     update() {
         this.overlaps.forEach( (ov, index) =>

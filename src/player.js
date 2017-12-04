@@ -2,14 +2,15 @@ import { Entity, EntityFacingDirection } from "./entity";
 import { CONFIG } from '../constants'
 
 export class Player extends Entity {
-    constructor(game, config) {
-        super(game, config)
+    constructor(gameCtrl, config) {
+        super(gameCtrl.game, config)
+        this.gameCtrl = gameCtrl
 
         this.keys = {
-            w: game.input.keyboard.addKey(Phaser.Keyboard.W),
-            a: game.input.keyboard.addKey(Phaser.Keyboard.A),
-            s: game.input.keyboard.addKey(Phaser.Keyboard.S),
-            d: game.input.keyboard.addKey(Phaser.Keyboard.D),
+            w: gameCtrl.game.input.keyboard.addKey(Phaser.Keyboard.W),
+            a: gameCtrl.game.input.keyboard.addKey(Phaser.Keyboard.A),
+            s: gameCtrl.game.input.keyboard.addKey(Phaser.Keyboard.S),
+            d: gameCtrl.game.input.keyboard.addKey(Phaser.Keyboard.D),
         }
 
         let anim = [
@@ -68,6 +69,12 @@ export class Player extends Entity {
             this.play('walk')
     }
 
+    init() {
+        super.init([18, 25, 23, 26])
+        this.addCollision(this.gameCtrl.layers.get('air-layer'))
+        this.addCollision(this.gameCtrl.layers.get('ground-layer'))
+        this.body.collideWorldBounds = true
+    }
 
     update() {
         this.collisions.forEach(col =>
@@ -136,11 +143,11 @@ export class Player extends Entity {
             this.visible = true
             this.events.destroy()
         }, this)
-    
+
         if (this.events) {
             this.events.onKilled$dispatch(this)
         }
-    
+
         return this
     }
 }

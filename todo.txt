@@ -1,9 +1,5 @@
-main Game.js controller
-levels (object based config)
-ticket manager + ticket placement on whiteboard
-game states (loading, pause, etc)
-explode spawn snippets from ticket on board (x and y velocity)
-    - if side wall, bounce off
+----------------------------------------------
+MATTHEW
 
 scoring algorithm
 clean up
@@ -39,3 +35,9 @@ random color selector
 create centered level with whiteboard in middle of level, not camera
 change background to repeating tiled single sprite?
 health image -> using patrick head sprites -> player.health
+main Game.js controller
+levels (object based config)
+ticket manager + ticket placement on whiteboard
+explode spawn snippets from ticket on board (x and y velocity)
+    - if side wall, bounce off
+game states (loading, pause, etc)
