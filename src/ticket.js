@@ -136,6 +136,7 @@ export class Ticket extends Phaser.Sprite {
         bug.init([24, 17, 4, 9])
         bug.addCollision(layer_ground)
         bug.addCollision(pt)
+        bug.body.collideWorldBounds = true
         this.bugs.push(bug)
     }
 }
