@@ -1,8 +1,9 @@
 import { Entity, EntityFacingDirection } from "./entity";
 
 export class Bug extends Entity {
-    constructor(game, config) {
-        super(game, config)
+    constructor(gameCtrl, config) {
+        super(gameCtrl.game, config)
+        this.gameCtrl = gameCtrl
 
         let anim = [
             { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: true },
@@ -51,6 +52,9 @@ export class Bug extends Entity {
 
     init() {
         super.init([24, 17, 4, 9])
+        this.addCollision(this.gameCtrl.layers.get('ground-layer'))
+        this.addCollision(this.gameCtrl.entities.get('patrick'))
+        this.body.collideWorldBounds = true
     }
 
     update() {

@@ -125,7 +125,7 @@ export class Ticket extends Phaser.Sprite {
         let x = this.game.rnd.realInRange(32, CONFIG.WORLD.width - 32)
         let y = CONFIG.SCREEN.height - 100
 
-        let bug = new Bug(this.game, {
+        let bug = new Bug(this.gameCtrl, {
             pos   : [x, y],
             anchor: [0.5, 1],
             name  : 'bug',
@@ -133,9 +133,6 @@ export class Ticket extends Phaser.Sprite {
         })
 
         bug.init()
-        bug.addCollision(this.gameCtrl.layers.get('ground-layer'))
-        bug.addCollision(this.gameCtrl.entities.get('patrick'))
-        bug.body.collideWorldBounds = true
         this.bugs.push(bug)
     }
 }
@@ -172,7 +169,7 @@ export class TicketController {
         for (let i=0; i<cnt; i++) {
             let ix = (Math.floor((i / (cnt/2))) * 32) + this.config.TICKET_BASE_POS.x
             let iy = ((i % (cnt/2)) * 32) + this.config.TICKET_BASE_POS.y
-            console.log(`${ix}:${iy}`)
+
             let ticket = new Ticket(this.gameCtrl, {
                 anchor: [0.5, 0.5],
                 numSnippets: this.gameCtrl.game.rnd.realInRange(1, 8), // this should be based on level
