@@ -15,7 +15,7 @@ export class Snippet extends Entity {
 
         this.isCollected = false;
 
-        this.tint = this.config.tint
+        this.tint = this.config.tint || 0xffffff
         this.play('idle')
     }
 

@@ -33,10 +33,10 @@ const config = {
   physicsConfig: { arcade: true },
 };
 
-const game = new Phaser.Game(config);
+const game = new Phaser.Game(config)
 
-let pt;
-let ticket;
+let pt
+let ticket
 
 let layer_air
 let layer_ground
@@ -54,10 +54,10 @@ function preload() {
 
   //this.game.load.image('jira_board', 'assets/img/jira-board_352x144.png')
   this.game.load.image('jira_board', 'assets/img/jira-whiteboard_256x96.png')
+  this.game.load.image('bg', 'assets/img/tile-bg_64x64.png')
 
   this.game.load.tilemap('map', 'assets/img/metal-map.json', null, Phaser.Tilemap.TILED_JSON)
   this.game.load.image('tiles', 'assets/img/metal-ground_32x32.png')
-  this.game.load.image('bg', 'assets/img/tile-bg_64x64.png')
 
   window._DEV_ = true
 }
@@ -72,20 +72,17 @@ function create() {
   this.physics.startSystem(Phaser.Physics.ARCADE)
   this.physics.arcade.gravity.y = CONFIG.GAME.gravity
 
+  // Background
+  let background = game.add.tileSprite(0, 0, CONFIG.LEVEL.width, CONFIG.LEVEL.height, 'bg')
 
   // Map settings
   const map = this.game.add.tilemap('map')
   map.addTilesetImage('tiles')
-  map.addTilesetImage('bg')
 
-  layer_bg = map.createLayer('bg')
   layer_air = map.createLayer('air-layer')
   layer_ground = map.createLayer('ground-layer')
 
-  let board = game.add.sprite(
-    CONFIG.SCREEN.width / 2,
-    16, 'jira_board')
-
+  let board = game.add.sprite(CONFIG.LEVEL.width / 2, 16, 'jira_board')
   board.anchor.setTo(0.5, 0)
 
   map.setCollisionByExclusion([], true, layer_air)
@@ -93,7 +90,7 @@ function create() {
 
   // Initialize player
   pt = new Player(game, {
-    pos   : [32, CONFIG.SCREEN.height - 160],
+    pos   : [CONFIG.LEVEL.width / 2, CONFIG.SCREEN.height - 192],
     anchor: [0.5, 1],
     name  : 'patrick'
   })

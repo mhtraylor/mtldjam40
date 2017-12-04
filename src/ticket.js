@@ -33,6 +33,11 @@ export class Ticket extends Phaser.Sprite {
         this.bugs = []
 
         this.currentStatus = TicketStatus.TODO
+
+        // Bug Spawn Timer
+        this.bugSpawnTimer = this.game.time.create(false)
+        this.bugSpawnTimer.loop(3000, this.ChanceSpawnBug, this)
+        this.bugSpawnTimer.start()
     }
 
 
@@ -40,7 +45,6 @@ export class Ticket extends Phaser.Sprite {
         this.game.add.existing(this)
 
         this.GenerateSnippets(layer_air, layer_ground, pt)
-        this.GenerateBugs(layer_ground, pt)
     }
 
 
@@ -63,6 +67,7 @@ export class Ticket extends Phaser.Sprite {
 
         if (allSnippets) {
             this.currentStatus = TicketStatus.QA
+            this.bugSpawnTimer.stop()
             console.log('all snippets collected --> move to qa')
         } else {
             if (this.currentStatus !== TicketStatus.IN_PROGRESS) this.currentStatus = TicketStatus.IN_PROGRESS
@@ -86,8 +91,8 @@ export class Ticket extends Phaser.Sprite {
 
 
     GenerateSnippets(layer_air, layer_ground, pt) {
-        let x = CONFIG.SCREEN.width / 2 - 100
-        let y = CONFIG.SCREEN.height / 2 - 100
+        let x = CONFIG.SCREEN.width / 4
+        let y = 96
 
         for (let s = 0; s < this.config.numSnippets; s++) {
             let snip = new Snippet(this.game, {
@@ -104,30 +109,31 @@ export class Ticket extends Phaser.Sprite {
             this.snippets.push(snip)
 
             x += 60
-            y += 60
         }
     }
 
 
-    GenerateBugs(layer_ground, pt) {
-        let x = CONFIG.SCREEN.width / 2 - 100
+    ChanceSpawnBug() {
+        // need better algorithm
+        
+    }
+
+
+    GenerateBug(layer_ground, pt) {
+        let x = this.game.rnd.realInRange(32, CONFIG.LEVEL.width - 32)
         let y = CONFIG.SCREEN.height - 100
 
-        for (let b = 0; b < this.config.numBugs; b++) {
-            let bug = new Bug(this.game, {
-                pos   : [x, y],
-                anchor: [0.5, 1],
-                name  : 'bug',
-                tint  : this.tint
-            })
+        let bug = new Bug(this.game, {
+            pos   : [x, y],
+            anchor: [0.5, 1],
+            name  : 'bug',
+            tint  : this.tint
+        })
 
-            bug.init([24, 17, 4, 9])
-            bug.addCollision(layer_ground)
-            bug.addCollision(pt)
-            this.bugs.push(bug)
-
-            x += 64
-        }
+        bug.init([24, 17, 4, 9])
+        bug.addCollision(layer_ground)
+        bug.addCollision(pt)
+        this.bugs.push(bug)
     }
 }
 
@@ -165,10 +171,9 @@ export class TicketController {
             let iy = ((i % (cnt/2)) * 32) + this.config.TICKET_BASE_POS.y
             let ticket = new Ticket(this.game, {
                 anchor: [0.5, 0.5],
-                numSnippets: 4,
+                numSnippets: this.game.rnd.realInRange(1, 8), // this should be based on level
                 name: 'ticket',
                 tint: this.getRandomAvailableColor(),
-                numBugs: 2,
                 pos: [ix, iy]
               })
 

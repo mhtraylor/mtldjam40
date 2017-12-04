@@ -9,7 +9,7 @@ export class Bug extends Entity {
             { name: 'die', frames: [4, 5, 6, 7, 8, 9], fps: 12, loop: false }
         ]
 
-        this.tint = this.config.tint || 0xFFFFFF;
+        this.tint = this.config.tint || 0xffffff
 
         this.config.MAX_SPEED_X = this.GetRandomSpeed()
         this.config.MAX_SPEED_Y = 999
@@ -56,7 +56,6 @@ export class Bug extends Entity {
                     if (col.key === 'patrick') {
                         if (bug.body.touching.up) {
                             col.moveUp()
-                            this.directionalChangeTimer.stop()
                             this.kill()
                         } else if (bug.body.touching.left) {
                             col.body.velocity.x = -500
@@ -75,6 +74,7 @@ export class Bug extends Entity {
 
     kill() {
         this.alive = false
+        this.directionalChangeTimer.stop()
         this.body.acceleration.setTo(0,0)
         this.body.velocity.setTo(0,0)
         this.body.enable = false
