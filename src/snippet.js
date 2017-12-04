@@ -17,6 +17,7 @@ export class Snippet extends Entity {
         this.play('idle')
     }
 
+    
     update() {
         this.overlaps.forEach( (ov, index) =>
             this.game.physics.arcade.overlap(this, ov, (snp, plr) => {

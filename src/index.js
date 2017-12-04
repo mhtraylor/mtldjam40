@@ -46,8 +46,8 @@ let layer_bg
 function preload() {
 
   //this.game.load.image('dev_bkg', 'assets/img/dev_lvl_1536x480.png')
-  this.game.load.spritesheet('patrick', 'assets/img/patrick_64x64.png', 64, 64, 9)
-  this.game.load.spritesheet('bug', 'assets/img/bug_32x32.png', 32, 32, 4)
+  this.game.load.spritesheet('patrick', 'assets/img/patrick_64x64.png', 64, 64, 17)
+  this.game.load.spritesheet('bug', 'assets/img/bug_32x32.png', 32, 32, 10)
   this.game.load.spritesheet('snippet', 'assets/img/snippet_32x32.png', 32, 32, 11)
   this.game.load.spritesheet('ticket', 'assets/img/ticket_32x32.png', 32, 32, 1)
 
@@ -92,7 +92,7 @@ function create() {
     name  : 'patrick'
   })
 
-  pt.init([48, 42, 8, 8])
+  pt.init([18, 40, 23, 11])
   pt.addCollision(layer_air)
   pt.addCollision(layer_ground)
   pt.body.collideWorldBounds = true
@@ -125,7 +125,8 @@ function update() {
 
 
 function render() {
-  this.game.debug.spriteInfo(pt, 16, 16);
-  // game.debug.body(pt)
+  //this.game.debug.spriteInfo(pt, 16, 16);
+  
+  //game.debug.body(pt)
   // game.debug.body(bug)
 }
