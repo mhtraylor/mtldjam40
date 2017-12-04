@@ -8,7 +8,9 @@ explode spawn snippets from ticket on board (x and y velocity)
 scoring algorithm
 clean up
 
----
+
+
+----------------------------------------------
 STEPHEN
 
 bugs spawning
@@ -17,9 +19,12 @@ bugs spawning
 
 health image -> using patrick head sprites -> player.health
 create centered level with whiteboard in middle of level, not camera
-color selector
+change background to repeating tiled single sprite?
 
-----
+
+
+----------------------------------------------
+NICE TO HAVES
 
 adjustments for patrick
 sprint timer
@@ -31,5 +36,7 @@ congregator.io -> submission to ludem dare
 
 
 
-------------------------------------------------------------
+----------------------------------------------
 DONE
+
+random color selector
