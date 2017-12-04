@@ -1,12 +1,12 @@
 main Game.js controller
-levels
-ticket manager
+levels (object based config)
+ticket manager + ticket placement on whiteboard
 game states (loading, pause, etc)
-explode spawn snippets from ticket on board (x and y velocity) 
+explode spawn snippets from ticket on board (x and y velocity)
     - if side wall, bounce off
 
 scoring algorithm
-
+clean up
 
 ---
 STEPHEN
@@ -15,7 +15,6 @@ bugs spawning
     - when bugspawntimer (inside ticket) expires
         - % chance to spawn bug based on snippets collected / snippets total for ticket
 
-ticket placement on whiteboard
 health image -> using patrick head sprites -> player.health
 create centered level with whiteboard in middle of level, not camera
 color selector
