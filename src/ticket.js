@@ -3,6 +3,7 @@ import 'phaser'
 import { CONFIG } from '../constants'
 import { Snippet } from './snippet'
 import { Bug } from './bug'
+import { Entity } from './entity'
 
 export const TicketStatus = {
     TODO: 0,
@@ -15,7 +16,7 @@ export const TicketStatus = {
 export class Ticket extends Phaser.Sprite {
     constructor(game, config) {
         super(game, config.pos[0], config.pos[1], config.name)
-        
+
         this.anchor.setTo(config.anchor[0], config.anchor[1])
         this.config = config || {
             numSnippets: 4,
@@ -25,7 +26,7 @@ export class Ticket extends Phaser.Sprite {
         // CHANGE NUMBUGS TO ALGORITHM GENERATED BASED ON SNIPPETS COMPLETED
 
         this.game = game
-    
+
         this.tint = Math.random() * 0xffffff
 
         this.snippets = []
@@ -35,10 +36,10 @@ export class Ticket extends Phaser.Sprite {
     }
 
 
-    init(layer_ground, pt) {
+    init(layer_air, layer_ground, pt) {
         this.game.add.existing(this)
 
-        this.GenerateSnippets(pt)
+        this.GenerateSnippets(layer_air, layer_ground, pt)
         this.GenerateBugs(layer_ground, pt)
     }
 
@@ -77,13 +78,13 @@ export class Ticket extends Phaser.Sprite {
 
         if (allBugs) {
             this.currentStatus = TicketStatus.DONE
-            
+
             // trigger a done event for ticket
         }
     }
 
 
-    GenerateSnippets(pt) {
+    GenerateSnippets(layer_air, layer_ground, pt) {
         let x = CONFIG.SCREEN.width / 2 - 100
         let y = CONFIG.SCREEN.height / 2 - 100
 
@@ -95,7 +96,9 @@ export class Ticket extends Phaser.Sprite {
                 tint  : this.tint
             })
 
-            snip.init()
+            snip.init([19, 23, 6, 10])
+            snip.addCollision(layer_air)
+            snip.addCollision(layer_ground)
             snip.addOverlap(pt)
             this.snippets.push(snip)
 
@@ -125,4 +128,27 @@ export class Ticket extends Phaser.Sprite {
             x += 64
         }
     }
+}
+
+export class TicketController extends Entity {
+    constructor(game, config) {
+        this.tickets = new Map()
+        this.tickets.set(TicketStatus.TODO, [])
+        this.tickets.set(TicketStatus.IN_PROGRESS, [])
+        this.tickets.set(TicketStatus.QA, [])
+        this.tickets.set(TicketStatus.DONE, [])
+    }
+
+    spawn(cnt) {
+        for (let c=0; c<cnt; c++) {
+
+        }
+    }
+
+    update() {
+        for (const [s, ts] in this.tickets) {
+            ts.forEach(t => t.update())
+        }
+    }
+
 }

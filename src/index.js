@@ -114,7 +114,7 @@ function create() {
     pos: [CONFIG.SCREEN.width / 2 - 16, 64]
   })
 
-  ticket.init(layer_ground, pt)
+  ticket.init(layer_air, layer_ground, pt)
   window._ticket = ticket
 
 }
@@ -129,6 +129,7 @@ function update() {
 
 
 function render() {
+  // ticket.snippets.forEach(snip => this.game.debug.body(snip))
   // this.game.debug.spriteInfo(pt, 16, 16);
   // game.debug.body(pt)
   // game.debug.body(bug)
