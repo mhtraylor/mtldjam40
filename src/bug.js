@@ -49,6 +49,10 @@ export class Bug extends Entity {
         this.directionFacing = EntityFacingDirection.RIGHT
     }
 
+    init() {
+        super.init([24, 17, 4, 9])
+    }
+
     update() {
         this.collisions.forEach(col =>
             this.game.physics.arcade.collide(this, col,
@@ -84,11 +88,11 @@ export class Bug extends Entity {
             this.visible = true
             this.events.destroy()
         }, this)
-    
+
         if (this.events) {
             this.events.onKilled$dispatch(this)
         }
-    
+
         return this
     }
 
