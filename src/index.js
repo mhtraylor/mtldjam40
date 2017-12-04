@@ -9,7 +9,7 @@ import { Entity } from './entity'
 import { Player } from './player'
 import { Bug } from './bug'
 import { Snippet } from './snippet'
-import { Ticket } from './ticket'
+import { Ticket, TicketController } from './ticket'
 
 window._DEV_ = false;
 
@@ -42,6 +42,7 @@ let layer_air
 let layer_ground
 let layer_bg
 
+let ticketManager
 
 function preload() {
 
@@ -96,7 +97,7 @@ function create() {
     name  : 'patrick'
   })
 
-  pt.init([18, 40, 23, 11])
+  pt.init([18, 25, 23, 26])
   pt.addCollision(layer_air)
   pt.addCollision(layer_ground)
   pt.body.collideWorldBounds = true
@@ -107,7 +108,7 @@ function create() {
 
   // Initialize Ticket
   ticket = new Ticket(game, {
-    anchor: [0.5, 1],
+    anchor: [0.5, 0.5],
     numSnippets: 4,
     name: 'ticket',
     numBugs: 2,
@@ -117,6 +118,10 @@ function create() {
   ticket.init(layer_air, layer_ground, pt)
   window._ticket = ticket
 
+  ticketManager = new TicketController(this.game)
+  ticketManager.ticketInitializer(t =>
+    t.init(layer_air, layer_ground, pt))
+  ticketManager.spawn(4)
 }
 
 
@@ -124,6 +129,7 @@ function create() {
 function update() {
   pt.update()
   ticket.update()
+  ticketManager.update()
 }
 
 

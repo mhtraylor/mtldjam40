@@ -131,18 +131,39 @@ export class Ticket extends Phaser.Sprite {
     }
 }
 
-export class TicketController extends Entity {
-    constructor(game, config) {
+export class TicketController {
+    constructor(game) {
+        this.game = game
+
         this.tickets = new Map()
         this.tickets.set(TicketStatus.TODO, [])
         this.tickets.set(TicketStatus.IN_PROGRESS, [])
         this.tickets.set(TicketStatus.QA, [])
         this.tickets.set(TicketStatus.DONE, [])
+
+        this.config = {}
+        this.config.TICKET_BASE_POS = {
+            x: 16, y: 16
+        }
+    }
+
+    ticketInitializer(initializer) {
+        this.initializer = initializer
     }
 
     spawn(cnt) {
-        for (let c=0; c<cnt; c++) {
+        for (let i=0; i<cnt; i++) {
+            let ix = (Math.floor((i / (cnt/2))) * 32) + this.config.TICKET_BASE_POS.x
+            let iy = ((i % (cnt/2)) * 32) + this.config.TICKET_BASE_POS.y
+            let ticket = new Ticket(this.game, {
+                anchor: [0.5, 0.5],
+                numSnippets: 4,
+                name: 'ticket',
+                numBugs: 2,
+                pos: [ix, iy]
+              })
 
+            this.initializer(ticket)
         }
     }
 
