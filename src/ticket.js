@@ -105,6 +105,7 @@ export class Ticket extends Phaser.Sprite {
         if (this.AllBugsAreKilled()) {
             this.currentStatus = TicketStatus.DONE
             console.log('all bugs killed --> move to done')
+            this.gameCtrl.scoreEvent.dispatch(this.gameCtrl.level.pointsPerTicket)
             // trigger a done event for ticket
         }
     }
@@ -118,7 +119,7 @@ export class Ticket extends Phaser.Sprite {
         for (let s = 0; s < this.config.numSnippets; s++) {
             px = this.game.rnd.integerInRange(0, CONFIG.WORLD.width)
 
-            let snip = new Snippet(this.game, {
+            let snip = new Snippet(this.gameCtrl, {
                 pos   : [px, y],
                 anchor: [0.5, 1],
                 name  : 'snippet',

@@ -127,7 +127,7 @@ export class Player extends Entity {
 
     TakeDamage() {
         this.health--
-
+        this.gameCtrl.scoreEvent.dispatch(-this.gameCtrl.level.pointsPerBug)
         if (this.health < 1) {
             this.kill()
         }

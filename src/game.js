@@ -17,6 +17,12 @@ export class GameController {
         this.keys = {
             p: this.game.input.keyboard.addKey(Phaser.Keyboard.P)
         }
+
+        this.level = CONFIG.LEVELS[0]
+        this.score = 0
+        this.scoreTxt
+
+        this.scoreEvent = new Phaser.Signal()
     }
 
     addTileMap(name, image, layers) {
@@ -69,8 +75,24 @@ export class GameController {
         img.renderable = this.game.paused
     }
 
+    updateScore(amt) {
+        this.score += amt
+        this.score = this.game.math.clamp(this.score, 0, 999999)
+    }
+
     start() {
         this.keys.p.onUp.add(() => this.togglePause())
+        this.scoreEvent.add((amt) => this.updateScore(amt))
+
+        this.scoreTxt = this.game.add.text(
+            CONFIG.SCREEN.width,
+            CONFIG.SCREEN.height - 32,
+            "0",
+            { font: "24px Arial", fill: "#ffffff", align: "right" }
+        )
+        this.scoreTxt.anchor.setTo(1, 0.5)
+        this.scoreTxt.fixedToCamera = true
+        this.scoreTxt.cameraOffset.setTo(CONFIG.SCREEN.width - 16, CONFIG.SCREEN.height - 24)
 
         this.ticketDisplayManager.spawn(4)
         this.healthDisplayManager.init(this.entities.get('patrick'))
@@ -84,6 +106,7 @@ export class GameController {
         this.entities.forEach(e => e.update())
         this.ticketDisplayManager.update()
         this.healthDisplayManager.update(this.entities.get('patrick'))
+        this.scoreTxt.setText(`${this.score}`)
     }
 
     render() {
