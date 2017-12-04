@@ -8,10 +8,15 @@ export class GameController {
         this.maps       = new Map()
         this.layers     = new Map()
         this.entities   = new Map()
+        this.images     = new Map()
 
         this.ticketDisplayManager
         this.healthDisplayManager =
             new HealthDisplayController(game, {following: 'patrick'})
+
+        this.keys = {
+            p: this.game.input.keyboard.addKey(Phaser.Keyboard.P)
+        }
     }
 
     addTileMap(name, image, layers) {
@@ -40,21 +45,34 @@ export class GameController {
         return this
     }
 
+    addImage(name, pos, anchor) {
+        let image = this.game.add.image(pos[0], pos[1], name)
+        image.renderable = false
+        if (anchor) image.anchor.setTo(anchor[0], anchor[1])
+        this.images.set(name, image)
+    }
+
     initialize() {
         this.entities.forEach(e => {
             if (!e.initialized) e.init()
         })
     }
 
+    togglePause() {
+        this.game.paused = !this.game.paused
+        let img = this.images.get('pause')
+        let pat = this.entities.get('patrick')
+        let px  = pat.position.x
+        let py  = CONFIG.SCREEN.height / 2
+        img.position.setTo(px, py)
+        img.bringToTop()
+        img.renderable = this.game.paused
+    }
+
     start() {
-        // let whiteboard = this.game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
-        // whiteboard.anchor.setTo(0.5, 0)
+        this.keys.p.onUp.add(() => this.togglePause())
 
-        // this.ticketDisplayManager = new TicketController(this, {
-        //     whiteboard: whiteboard
-        // })
         this.ticketDisplayManager.spawn(4)
-
         this.healthDisplayManager.init(this.entities.get('patrick'))
 
         this.game.camera.x = CONFIG.SCREEN.width / 2
