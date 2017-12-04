@@ -1,9 +1,9 @@
 import { Entity, EntityFacingDirection } from "./entity";
 
 export class Snippet extends Entity {
-    constructor(game, config) {
-        super(game, config)
-
+    constructor(gameCtrl, config) {
+        super(gameCtrl.game, config)
+        this.gameCtrl = gameCtrl
         this.config.MAX_SPEED_Y = 1000
 
         let anim = [
@@ -37,7 +37,7 @@ export class Snippet extends Entity {
     CollectSnippet() {
         this.isCollected = true
         this.play('collect')
-
+        this.gameCtrl.scoreEvent.dispatch(this.gameCtrl.level.pointsPerSnippet)
         // trigger event to update the ticket snippet quantity
     }
 }

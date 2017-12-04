@@ -69,6 +69,7 @@ export class Ticket extends Phaser.Sprite {
             this.currentStatus = TicketStatus.QA
             this.bugSpawnTimer.stop()
             console.log('all snippets collected --> move to qa')
+            this.gameCtrl.scoreEvent.dispatch(this.gameCtrl.level.pointsPerTicket)
         } else {
             if (this.currentStatus !== TicketStatus.IN_PROGRESS) this.currentStatus = TicketStatus.IN_PROGRESS
         }
@@ -85,6 +86,7 @@ export class Ticket extends Phaser.Sprite {
         if (allBugs) {
             this.currentStatus = TicketStatus.DONE
             console.log('all bugs killed --> move to done')
+            this.gameCtrl.scoreEvent.dispatch(this.gameCtrl.level.pointsPerTicket)
             // trigger a done event for ticket
         }
     }
@@ -98,7 +100,7 @@ export class Ticket extends Phaser.Sprite {
         for (let s = 0; s < this.config.numSnippets; s++) {
             px = this.game.rnd.integerInRange(0, CONFIG.WORLD.width)
 
-            let snip = new Snippet(this.game, {
+            let snip = new Snippet(this.gameCtrl, {
                 pos   : [px, y],
                 anchor: [0.5, 1],
                 name  : 'snippet',

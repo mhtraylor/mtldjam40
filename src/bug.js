@@ -97,6 +97,7 @@ export class Bug extends Entity {
             this.events.onKilled$dispatch(this)
         }
 
+        this.gameCtrl.scoreEvent.dispatch(this.gameCtrl.level.pointsPerBug)
         return this
     }
 

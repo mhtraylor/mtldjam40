@@ -14,6 +14,9 @@ const CONFIG = {
         {
             maxTicketCount: 4,
             snippetPerTicket: 4,
+            pointsPerSnippet: 100,
+            pointsPerBug: 200,
+            pointsPerTicket: 400,
         }
     ]
 }
