@@ -47,12 +47,12 @@ export class GameController {
     }
 
     start() {
-        let whiteboard = this.game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
-        whiteboard.anchor.setTo(0.5, 0)
+        // let whiteboard = this.game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
+        // whiteboard.anchor.setTo(0.5, 0)
 
-        this.ticketDisplayManager = new TicketController(this, {
-            whiteboard: whiteboard
-        })
+        // this.ticketDisplayManager = new TicketController(this, {
+        //     whiteboard: whiteboard
+        // })
         this.ticketDisplayManager.spawn(4)
 
         this.healthDisplayManager.init(this.entities.get('patrick'))

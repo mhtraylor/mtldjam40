@@ -42,6 +42,7 @@ export class Ticket extends Phaser.Sprite {
 
 
     init() {
+        this.gameCtrl.game.add.existing(this)
         this.GenerateSnippets()
         this.GenerateBug()
     }
@@ -171,6 +172,7 @@ export class TicketController {
         for (let i=0; i<cnt; i++) {
             let ix = (Math.floor((i / (cnt/2))) * 32) + this.config.TICKET_BASE_POS.x
             let iy = ((i % (cnt/2)) * 32) + this.config.TICKET_BASE_POS.y
+            console.log(`${ix}:${iy}`)
             let ticket = new Ticket(this.gameCtrl, {
                 anchor: [0.5, 0.5],
                 numSnippets: this.gameCtrl.game.rnd.realInRange(1, 8), // this should be based on level
@@ -180,10 +182,10 @@ export class TicketController {
               })
 
             ticket.init()
-            // for (const [k, v] in this.tickets) {
-            //     if (TicketStatus.TODO === k)
-            //         v.push(ticket)
-            // }
+            for (const [k, v] in this.tickets) {
+                if (TicketStatus.TODO === k)
+                    v.push(ticket)
+            }
         }
     }
 

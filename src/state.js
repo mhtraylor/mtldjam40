@@ -68,6 +68,8 @@ export class Main {
         // TODO: should all this go inside the GameController?
         // Setup maps & layers
         let background = this.gameCtrl.game.add.tileSprite(0, 0, CONFIG.WORLD.width, CONFIG.WORLD.height, 'bg')
+        let whiteboard = this.game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
+        whiteboard.anchor.setTo(0.5, 0)
 
         this.gameCtrl
             .addTileMap('map', 'tiles', ['air-layer', 'ground-layer'])
@@ -78,6 +80,9 @@ export class Main {
             .setCollisionByExclusion([], true,
                 this.gameCtrl.layers.get('ground-layer'))
 
+        this.gameCtrl.ticketDisplayManager = new TicketController(this.gameCtrl, {
+            whiteboard: whiteboard
+        })
         // Setup sprite entities
         this.gameCtrl.addEntity('patrick',
             new Player(
