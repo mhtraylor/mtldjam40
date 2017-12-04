@@ -17,10 +17,6 @@ bugs spawning
     - when bugspawntimer (inside ticket) expires
         - % chance to spawn bug based on snippets collected / snippets total for ticket
 
-health image -> using patrick head sprites -> player.health
-create centered level with whiteboard in middle of level, not camera
-change background to repeating tiled single sprite?
-
 
 
 ----------------------------------------------
@@ -40,3 +36,6 @@ congregator.io -> submission to ludem dare
 DONE
 
 random color selector
+create centered level with whiteboard in middle of level, not camera
+change background to repeating tiled single sprite?
+health image -> using patrick head sprites -> player.health

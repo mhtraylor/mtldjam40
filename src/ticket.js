@@ -45,6 +45,7 @@ export class Ticket extends Phaser.Sprite {
         this.game.add.existing(this)
 
         this.GenerateSnippets(layer_air, layer_ground, pt)
+        this.GenerateBug(layer_ground, pt)
     }
 
 

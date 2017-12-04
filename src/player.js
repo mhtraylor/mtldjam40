@@ -1,4 +1,5 @@
 import { Entity, EntityFacingDirection } from "./entity";
+import { CONFIG } from '../constants'
 
 export class Player extends Entity {
     constructor(game, config) {
@@ -141,5 +142,49 @@ export class Player extends Entity {
         }
     
         return this
+    }
+}
+
+
+
+
+export class HealthDisplayController {
+    constructor(game) {
+        this.game = game
+
+        this.playerHealth = 0
+        this.healthContainer = null
+    }
+
+    init(player) {
+        this.playerHealth = player.health
+
+        this.healthContainer = this.game.add.group()
+
+        let x = 0
+        for (let h = 0; h < this.playerHealth; h++) {
+            this.healthContainer.create(x, 0, 'patrick_head')
+            x += 32
+        }
+
+        this.healthContainer.fixedToCamera = true
+        this.healthContainer.cameraOffset.setTo(16, CONFIG.SCREEN.height - 40)
+    }
+
+    update(player) {
+        this.playerHealth == player.health ? null : this.UpdateHealthDisplay(player.health)
+    }
+
+    render() {
+    }
+
+    UpdateHealthDisplay(amt) {
+        if (this.playerHealth > amt) {
+            this.healthContainer.removeChildAt(this.playerHealth - 1)
+        } else {
+            // just in case we add health packs
+        }
+
+        this.playerHealth = amt
     }
 }
