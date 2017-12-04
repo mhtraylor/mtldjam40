@@ -11,10 +11,6 @@ MATTHEW
 ----------------------------------------------
 STEPHEN
 
-bugs spawning
-    - when bugspawntimer (inside ticket) expires
-        - % chance to spawn bug based on snippets collected / snippets total for ticket
-
 
 
 ----------------------------------------------
@@ -44,3 +40,6 @@ explode spawn snippets from ticket on board (x and y velocity)
     - if side wall, bounce off
 game states (loading, pause, etc)
 Pause screen
+bugs spawning
+    - when bugspawntimer (inside ticket) expires
+        - % chance to spawn bug based on snippets collected / snippets total for ticket
