@@ -149,7 +149,7 @@ export const TicketColors = [
 ]
 
 export class TicketController {
-    constructor(game) {
+    constructor(game, config) {
         this.game = game
 
         this.tickets = new Map()
@@ -158,9 +158,13 @@ export class TicketController {
         this.tickets.set(TicketStatus.QA, [])
         this.tickets.set(TicketStatus.DONE, [])
 
-        this.config = {}
+        this.config = config || {}
+
+        let wx = this.config.whiteboard.world.x - (this.config.whiteboard.texture.width / 2) + 16
+        let wy = this.config.whiteboard.world.y + 38
+
         this.config.TICKET_BASE_POS = {
-            x: 16, y: 16
+            x: wx, y: wy
         }
     }
 

@@ -87,8 +87,8 @@ function create() {
   map.setCollision([0, 1], true, layer_ground)
 
   // Jira board
-  let board = game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
-  board.anchor.setTo(0.5, 0)
+  let whiteboard = game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
+  whiteboard.anchor.setTo(0.5, 0)
   
   // Initialize player
   pt = new Player(game, {
@@ -119,7 +119,9 @@ function create() {
   // ticket.init(layer_air, layer_ground, pt)
   // window._ticket = ticket
 
-  ticketManager = new TicketController(this.game)
+  ticketManager = new TicketController(this.game, {
+    whiteboard: whiteboard
+  })
   ticketManager.ticketInitializer(t =>
     t.init(layer_air, layer_ground, pt))
   ticketManager.spawn(4)
