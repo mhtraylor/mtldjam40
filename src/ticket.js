@@ -27,7 +27,7 @@ export class Ticket extends Phaser.Sprite {
 
         this.game = game
 
-        this.tint = Math.random() * 0xffffff
+        this.tint = this.config.tint || 0xffffff
 
         this.snippets = []
         this.bugs = []
@@ -132,6 +132,14 @@ export class Ticket extends Phaser.Sprite {
     }
 }
 
+export const TicketColors = [
+    { color: 0xff684e, inUse: false }, // orange
+    { color: 0xf93e7d, inUse: false }, // pink
+    { color: 0xc2ea00, inUse: false }, // lime
+    { color: 0x0fbb65, inUse: false }, // green/teal
+    { color: 0xccffff, inUse: false }  // ice blue
+]
+
 export class TicketController {
     constructor(game) {
         this.game = game
@@ -160,6 +168,7 @@ export class TicketController {
                 anchor: [0.5, 0.5],
                 numSnippets: 4,
                 name: 'ticket',
+                tint: this.getRandomAvailableColor(),
                 numBugs: 2,
                 pos: [ix, iy]
               })
@@ -171,6 +180,21 @@ export class TicketController {
     update() {
         for (const [s, ts] in this.tickets) {
             ts.forEach(t => t.update())
+        }
+    }
+
+    getRandomAvailableColor() {
+        let ticketColors = TicketColors
+
+        for (let i = 0; ticketColors.length; i++) {
+            let index = Math.floor(Math.random() * ticketColors.length)
+            
+            if (ticketColors[index].inUse) {
+                ticketColors.splice(index, 1)
+            } else {
+                TicketColors[index].inUse = true
+                return TicketColors[index].color
+            }
         }
     }
 

@@ -16,7 +16,7 @@ export class Player extends Entity {
             { name: 'walk', frames: [0, 1, 2, 3], fps: 8, loop: false },
             { name: 'idle', frames: [4, 5, 6, 7], fps: 4, loop: true },
             { name: 'hit', frames: [9], fps: 1, loop: false },
-            { name: 'die', frames: [10, 11, 12, 13, 14, 15, 16], fps: 8, loop: false }
+            { name: 'die', frames: [10, 11, 12, 13, 14, 15, 16], fps: 5, loop: false }
         ]
 
         this.health = 5
