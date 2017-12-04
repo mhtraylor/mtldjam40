@@ -38,6 +38,16 @@ export class Ticket extends Phaser.Sprite {
         this.bugSpawnTimer = this.gameCtrl.game.time.create(false)
         this.bugSpawnTimer.loop(5000, this.ChanceSpawnBug, this)
         this.bugSpawnTimer.start()
+
+        
+        // Board x offsets
+        this.defaultXPos = this.position.x
+        this.boardPositions = {
+            TODO: this.defaultXPos,
+            IN_PROGRESS: this.defaultXPos + 64,
+            QA: this.defaultXPos + 128,
+            DONE: this.defaultXPos + 192
+        }
     }
 
 
@@ -53,6 +63,24 @@ export class Ticket extends Phaser.Sprite {
 
         // check bugs if the ticket is in qa
         if (this.currentStatus == TicketStatus.QA) this.CheckBugs()
+    }
+
+
+    ShiftBoardPosition() {
+        switch(this.currentStatus) {
+            case TicketStatus.TODO:
+                this.position.x = this.boardPositions.TODO
+                break;
+            case TicketStatus.IN_PROGRESS:
+                this.position.x = this.boardPositions.IN_PROGRESS
+                break;
+            case TicketStatus.QA:
+                this.position.x = this.boardPositions.QA
+                break;
+            case TicketStatus.DONE:
+                this.position.x = this.boardPositions.DONE
+                break;
+        }
     }
 
 
@@ -94,17 +122,18 @@ export class Ticket extends Phaser.Sprite {
         if (this.AllSnippetsAreCollected()) {
             this.currentStatus = TicketStatus.QA
             this.bugSpawnTimer.stop()
-            console.log('all snippets collected --> move to qa')
         } else {
             if (this.GetCollectedSnippetsCount() && this.currentStatus !== TicketStatus.IN_PROGRESS) this.currentStatus = TicketStatus.IN_PROGRESS
         }
+
+        this.ShiftBoardPosition()
     }
 
 
     CheckBugs() {
         if (this.AllBugsAreKilled()) {
             this.currentStatus = TicketStatus.DONE
-            console.log('all bugs killed --> move to done')
+            this.ShiftBoardPosition()
             this.gameCtrl.scoreEvent.dispatch(this.gameCtrl.level.pointsPerTicket)
             // trigger a done event for ticket
         }
