@@ -29,6 +29,8 @@ export class Boot extends Phaser.State {
 export class Load extends Phaser.State {
     preload() {
         console.log("Loading data...")
+        this.game.load.image('title', 'assets/img/title.png')
+
         this.game.load.spritesheet('patrick', 'assets/img/patrick_64x64.png', 64, 64, 17)
         this.game.load.spritesheet('bug', 'assets/img/bug_32x32.png', 32, 32, 10)
         this.game.load.spritesheet('snippet', 'assets/img/snippet_32x32.png', 32, 32, 11)
@@ -48,11 +50,19 @@ export class Load extends Phaser.State {
 }
 
 export class Menu extends Phaser.State {
+    init() {
+        this.hasStarted = false
+    }
     preload() {
         "Loading menu..."
     }
     create() {
+        this.game.add.image(0, 0, 'title')
+        this.game.input.keyboard.addCallbacks(this, () => this.startGame())
+    }
+    startGame() {
         this.game.state.start(GameState.MAIN)
+        this.game.input.keyboard.onDownCallback = null
     }
 }
 

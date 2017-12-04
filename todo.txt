@@ -2,7 +2,6 @@
 MATTHEW
 
 -- Main Menu
--- Score
 -- Levels & Done states
 -- Deployment
 
