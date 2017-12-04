@@ -36,7 +36,7 @@ export class Ticket extends Phaser.Sprite {
 
         // Bug Spawn Timer
         this.bugSpawnTimer = this.gameCtrl.game.time.create(false)
-        this.bugSpawnTimer.loop(3000, this.ChanceSpawnBug, this)
+        this.bugSpawnTimer.loop(5000, this.ChanceSpawnBug, this)
         this.bugSpawnTimer.start()
     }
 
@@ -44,7 +44,6 @@ export class Ticket extends Phaser.Sprite {
     init() {
         this.gameCtrl.game.add.existing(this)
         this.GenerateSnippets()
-        this.GenerateBug()
     }
 
 
@@ -58,31 +57,52 @@ export class Ticket extends Phaser.Sprite {
 
 
 
-    CheckSnippets() {
+    AllSnippetsAreCollected() {
         let allSnippets = true
-
+        
         this.snippets.forEach(snp => {
             if (!snp.isCollected) allSnippets = false
         })
 
-        if (allSnippets) {
-            this.currentStatus = TicketStatus.QA
-            this.bugSpawnTimer.stop()
-            console.log('all snippets collected --> move to qa')
-        } else {
-            if (this.currentStatus !== TicketStatus.IN_PROGRESS) this.currentStatus = TicketStatus.IN_PROGRESS
-        }
+        return allSnippets
     }
 
 
-    CheckBugs() {
+    GetCollectedSnippetsCount() {
+        let count = 0
+
+        this.snippets.forEach(snp => {
+            if (snp.isCollected) count++
+        })
+
+        return count
+    }
+
+
+    AllBugsAreKilled() {
         let allBugs = true
 
         this.bugs.forEach(bug => {
             if (bug.alive) allBugs = false
         })
+        
+        return allBugs
+    }
 
-        if (allBugs) {
+
+    CheckSnippets() {
+        if (this.AllSnippetsAreCollected()) {
+            this.currentStatus = TicketStatus.QA
+            this.bugSpawnTimer.stop()
+            console.log('all snippets collected --> move to qa')
+        } else {
+            if (this.GetCollectedSnippetsCount() && this.currentStatus !== TicketStatus.IN_PROGRESS) this.currentStatus = TicketStatus.IN_PROGRESS
+        }
+    }
+
+
+    CheckBugs() {
+        if (this.AllBugsAreKilled()) {
             this.currentStatus = TicketStatus.DONE
             console.log('all bugs killed --> move to done')
             // trigger a done event for ticket
@@ -116,8 +136,21 @@ export class Ticket extends Phaser.Sprite {
 
 
     ChanceSpawnBug() {
-        // need better algorithm
+        if (this.currentStatus !== TicketStatus.IN_PROGRESS) return
 
+        // Use this to offset percentages for balance
+        let offset = 0
+
+        // ----------------- NEED BETTER ALGORITHM
+        let chance = 100 * (this.GetCollectedSnippetsCount() / (this.snippets.length + offset))
+        let randomNum = this.game.rnd.integerInRange(1, 100)
+        if (chance > randomNum) {
+            //console.log('passed generation')
+            this.GenerateBug()
+        } else {
+            //console.log('failed generation')
+        }
+        // -----------------
     }
 
 
