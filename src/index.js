@@ -6,7 +6,7 @@ import pkg from '../package.json'
 import { CONFIG } from '../constants'
 
 import { Entity } from './entity'
-import { Player } from './player'
+import { Player, HealthDisplayController } from './player'
 import { Bug } from './bug'
 import { Snippet } from './snippet'
 import { Ticket, TicketController } from './ticket'
@@ -56,6 +56,7 @@ game.state.start(GameState.BOOT)
 // let layer_bg
 
 // let ticketManager
+// let healthDisplayManager
 
 // function preload() {
 
@@ -65,9 +66,9 @@ game.state.start(GameState.BOOT)
 //   this.game.load.spritesheet('snippet', 'assets/img/snippet_32x32.png', 32, 32, 11)
 //   this.game.load.spritesheet('ticket', 'assets/img/ticket_32x32.png', 32, 32, 1)
 
-//   //this.game.load.image('jira_board', 'assets/img/jira-board_352x144.png')
-//   this.game.load.image('jira_board', 'assets/img/jira-whiteboard_256x96.png')
-//   this.game.load.image('bg', 'assets/img/tile-bg_64x64.png')
+  // this.game.load.image('patrick_head', 'assets/img/patrick-life-head.png')
+  // this.game.load.image('jira_board', 'assets/img/jira-whiteboard_256x96.png')
+  // this.game.load.image('bg', 'assets/img/tile-bg_64x64.png')
 
 //   this.game.load.tilemap('map', 'assets/img/metal-map.json', null, Phaser.Tilemap.TILED_JSON)
 //   this.game.load.image('tiles', 'assets/img/metal-ground_32x32.png')
@@ -107,13 +108,27 @@ game.state.start(GameState.BOOT)
 //     anchor: [0.5, 1],
 //     name  : 'patrick'
 //   })
+  // map.setCollisionByExclusion([], true, layer_air)
+  // map.setCollision([0, 1], true, layer_ground)
+
+  // Jira board
+  // let whiteboard = game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
+  // whiteboard.anchor.setTo(0.5, 0)
+
+  // Initialize player
+  // pt = new Player(game, {
+  //   pos   : [CONFIG.WORLD.width / 2, CONFIG.SCREEN.height - 192],
+  //   anchor: [0.5, 1],
+  //   name  : 'patrick'
+  // })
 
 //   pt.init([18, 25, 23, 26])
 //   pt.addCollision(layer_air)
 //   pt.addCollision(layer_ground)
 //   pt.body.collideWorldBounds = true
 
-//   this.game.camera.follow(pt, Phaser.Camera.FOLLOW_PLATFORMER)
+  // this.game.camera.x = CONFIG.SCREEN.width / 2
+  // this.game.camera.follow(pt, Phaser.Camera.FOLLOW_PLATFORMER)
 
 //   window._pt = pt;
 
@@ -129,10 +144,17 @@ game.state.start(GameState.BOOT)
 //   // ticket.init(layer_air, layer_ground, pt)
 //   // window._ticket = ticket
 
-//   ticketManager = new TicketController(this.game)
+//   ticketManager = new TicketController(this.game, {
+//     whiteboard: whiteboard
+//   })
 //   ticketManager.ticketInitializer(t =>
 //     t.init(layer_air, layer_ground, pt))
 //   ticketManager.spawn(4)
+
+
+//   healthDisplayManager = new HealthDisplayController(this.game)
+//   healthDisplayManager.init(pt)
+
 // }
 
 
@@ -141,12 +163,15 @@ game.state.start(GameState.BOOT)
 //   pt.update()
 //   // ticket.update()
 //   ticketManager.update()
+//   healthDisplayManager.update(pt)
 // }
 
 
 
 // function render() {
+//   // ticket.snippets.forEach(snip => this.game.debug.body(snip))
 //   // this.game.debug.spriteInfo(pt, 16, 16);
 //   // game.debug.body(pt)
 //   // game.debug.body(bug)
+//   healthDisplayManager.render()
 // }

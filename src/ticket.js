@@ -134,6 +134,7 @@ export class Ticket extends Phaser.Sprite {
         bug.init()
         bug.addCollision(this.gameCtrl.layers.get('ground-layer'))
         bug.addCollision(this.gameCtrl.entities.get('patrick'))
+        bug.body.collideWorldBounds = true
         this.bugs.push(bug)
     }
 }
@@ -146,9 +147,8 @@ export const TicketColors = [
     { color: 0xccffff, inUse: false }  // ice blue
 ]
 
-export class TicketController extends Entity {
+export class TicketController {
     constructor(gameCtrl, config) {
-        super(gameCtrl.game, config)
         this.gameCtrl = gameCtrl
 
         this.tickets = new Map()
@@ -157,9 +157,13 @@ export class TicketController extends Entity {
         this.tickets.set(TicketStatus.QA, [])
         this.tickets.set(TicketStatus.DONE, [])
 
-        this.config = {}
+        this.config = config || {}
+
+        let wx = this.config.whiteboard.world.x - (this.config.whiteboard.texture.width / 2) + 16
+        let wy = this.config.whiteboard.world.y + 38
+
         this.config.TICKET_BASE_POS = {
-            x: 16, y: 16
+            x: wx, y: wy
         }
     }
 
@@ -176,10 +180,10 @@ export class TicketController extends Entity {
               })
 
             ticket.init()
-            for (const [k, v] in this.tickets) {
-                if (TicketStatus.TODO === k)
-                    v.push(ticket)
-            }
+            // for (const [k, v] in this.tickets) {
+            //     if (TicketStatus.TODO === k)
+            //         v.push(ticket)
+            // }
         }
     }
 

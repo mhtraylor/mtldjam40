@@ -1,3 +1,6 @@
+import { CONFIG } from '../constants'
+import { HealthDisplayController } from './player'
+import { TicketController } from './ticket';
 export class GameController {
     constructor(game, config) {
         this.game = game
@@ -5,6 +8,10 @@ export class GameController {
         this.maps       = new Map()
         this.layers     = new Map()
         this.entities   = new Map()
+
+        this.ticketDisplayManager
+        this.healthDisplayManager =
+            new HealthDisplayController(game, {following: 'patrick'})
     }
 
     addTileMap(name, image, layers) {
@@ -40,12 +47,28 @@ export class GameController {
     }
 
     start() {
-        this.entities.get('ticket-ctrl').spawn(4)
+        let whiteboard = this.game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
+        whiteboard.anchor.setTo(0.5, 0)
+
+        this.ticketDisplayManager = new TicketController(this, {
+            whiteboard: whiteboard
+        })
+        this.ticketDisplayManager.spawn(4)
+
+        this.healthDisplayManager.init(this.entities.get('patrick'))
+
+        this.game.camera.x = CONFIG.SCREEN.width / 2
         this.game.camera.follow(this.entities.get('patrick'),
             Phaser.Camera.FOLLOW_PLATFORMER)
     }
 
     update() {
         this.entities.forEach(e => e.update())
+        this.ticketDisplayManager.update()
+        this.healthDisplayManager.update(this.entities.get('patrick'))
+    }
+
+    render() {
+        this.healthDisplayManager.render()
     }
 }

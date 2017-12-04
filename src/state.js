@@ -2,7 +2,7 @@ import 'phaser-ce'
 import { CONFIG } from '../constants'
 import { GameController } from './game';
 import { TicketController } from './ticket';
-import { Player } from './player'
+import { Player, HealthDisplayController } from './player'
 
 export const GameState = {
     BOOT: 'boot',
@@ -33,6 +33,7 @@ export class Load extends Phaser.State {
         this.game.load.spritesheet('bug', 'assets/img/bug_32x32.png', 32, 32, 10)
         this.game.load.spritesheet('snippet', 'assets/img/snippet_32x32.png', 32, 32, 11)
         this.game.load.spritesheet('ticket', 'assets/img/ticket_32x32.png', 32, 32, 1)
+        this.game.load.image('patrick_head', 'assets/img/patrick-life-head.png')
         this.game.load.image('jira_board', 'assets/img/jira-whiteboard_256x96.png')
 
         this.game.load.tilemap('map', 'assets/img/metal-map.json', null, Phaser.Tilemap.TILED_JSON)
@@ -63,6 +64,8 @@ export class Main {
     create() {
         console.log("Creating main state...")
         this.gameCtrl = new GameController(this.gameRef)
+
+        // TODO: should all this go inside the GameController?
         // Setup maps & layers
         let background = this.gameCtrl.game.add.tileSprite(0, 0, CONFIG.WORLD.width, CONFIG.WORLD.height, 'bg')
 
@@ -76,13 +79,6 @@ export class Main {
                 this.gameCtrl.layers.get('ground-layer'))
 
         // Setup sprite entities
-        this.gameCtrl.addEntity('ticket-ctrl',
-            new TicketController(this.gameCtrl,
-                {
-                    pos: [0, 0],
-                    anchor: [0, 0],
-                    name: 'jira_board'
-                }))
         this.gameCtrl.addEntity('patrick',
             new Player(
                 this.gameCtrl,
@@ -100,5 +96,9 @@ export class Main {
         // Start main controller
         this.gameCtrl.start()
 
+    }
+
+    update() {
+        this.gameCtrl.update()
     }
 }
