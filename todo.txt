@@ -1,0 +1,36 @@
+main Game.js controller
+levels
+ticket manager
+game states (loading, pause, etc)
+explode spawn snippets from ticket on board (x and y velocity) 
+    - if side wall, bounce off
+
+scoring algorithm
+
+
+---
+STEPHEN
+
+bugs spawning
+    - when bugspawntimer (inside ticket) expires
+        - % chance to spawn bug based on snippets collected / snippets total for ticket
+
+ticket placement on whiteboard
+health image -> using patrick head sprites -> player.health
+create centered level with whiteboard in middle of level, not camera
+color selector
+
+----
+
+adjustments for patrick
+sprint timer
+scott
+
+
+congregator.io -> submission to ludem dare
+
+
+
+
+------------------------------------------------------------
+DONE
