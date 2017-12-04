@@ -67,13 +67,13 @@ function preload() {
 function create() {
   const { game } = this;
 
-  this.game.world.setBounds(0, 0, CONFIG.LEVEL.width, CONFIG.LEVEL.height)
+  this.game.world.setBounds(0, 0, CONFIG.WORLD.width, CONFIG.WORLD.height)
 
   this.physics.startSystem(Phaser.Physics.ARCADE)
   this.physics.arcade.gravity.y = CONFIG.GAME.gravity
 
   // Background
-  let background = game.add.tileSprite(0, 0, CONFIG.LEVEL.width, CONFIG.LEVEL.height, 'bg')
+  let background = game.add.tileSprite(0, 0, CONFIG.WORLD.width, CONFIG.WORLD.height, 'bg')
 
   // Map settings
   const map = this.game.add.tilemap('map')
@@ -82,7 +82,7 @@ function create() {
   layer_air = map.createLayer('air-layer')
   layer_ground = map.createLayer('ground-layer')
 
-  let board = game.add.sprite(CONFIG.LEVEL.width / 2, 16, 'jira_board')
+  let board = game.add.sprite(CONFIG.WORLD.width / 2, 16, 'jira_board')
   board.anchor.setTo(0.5, 0)
 
   map.setCollisionByExclusion([], true, layer_air)
@@ -90,7 +90,7 @@ function create() {
 
   // Initialize player
   pt = new Player(game, {
-    pos   : [CONFIG.LEVEL.width / 2, CONFIG.SCREEN.height - 192],
+    pos   : [CONFIG.WORLD.width / 2, CONFIG.SCREEN.height - 192],
     anchor: [0.5, 1],
     name  : 'patrick'
   })
@@ -105,16 +105,16 @@ function create() {
   window._pt = pt;
 
   // Initialize Ticket
-  ticket = new Ticket(game, {
-    anchor: [0.5, 0.5],
-    numSnippets: 4,
-    name: 'ticket',
-    numBugs: 2,
-    pos: [CONFIG.SCREEN.width / 2 - 16, 64]
-  })
+  // ticket = new Ticket(game, {
+  //   anchor: [0.5, 0.5],
+  //   numSnippets: 8,
+  //   name: 'ticket',
+  //   numBugs: 2,
+  //   pos: [CONFIG.SCREEN.width / 2 - 16, 64]
+  // })
 
-  ticket.init(layer_air, layer_ground, pt)
-  window._ticket = ticket
+  // ticket.init(layer_air, layer_ground, pt)
+  // window._ticket = ticket
 
   ticketManager = new TicketController(this.game)
   ticketManager.ticketInitializer(t =>
@@ -126,7 +126,7 @@ function create() {
 
 function update() {
   pt.update()
-  ticket.update()
+  // ticket.update()
   ticketManager.update()
 }
 

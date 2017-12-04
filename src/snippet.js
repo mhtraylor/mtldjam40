@@ -4,7 +4,7 @@ export class Snippet extends Entity {
     constructor(game, config) {
         super(game, config)
 
-        this.config.MAX_SPEED_Y = 400
+        this.config.MAX_SPEED_Y = 1000
 
         let anim = [
             { name: 'idle', frames: [7, 8, 9, 10], fps: 8, loop: true },
@@ -19,7 +19,7 @@ export class Snippet extends Entity {
         this.play('idle')
     }
 
-    
+
     update() {
         this.overlaps.forEach( (ov, index) =>
             this.game.physics.arcade.overlap(this, ov, (snp, plr) => {
