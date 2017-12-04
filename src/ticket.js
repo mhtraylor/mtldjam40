@@ -17,6 +17,7 @@ export class Ticket extends Phaser.Sprite {
     constructor(gameCtrl, config) {
         super(gameCtrl.game, config.pos[0], config.pos[1], config.name)
 
+        this.angle = config.angle
         this.anchor.setTo(config.anchor[0], config.anchor[1])
         this.config = config || {
             numSnippets: 4,
@@ -235,6 +236,7 @@ export class TicketController {
 
             let ticket = new Ticket(this.gameCtrl, {
                 anchor: [0.5, 0.5],
+                angle: this.gameCtrl.game.rnd.realInRange(-15, 15),
                 numSnippets: this.gameCtrl.game.rnd.realInRange(1, 8), // this should be based on level
                 name: 'ticket',
                 tint: this.getRandomAvailableColor(),
