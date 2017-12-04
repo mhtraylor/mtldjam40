@@ -67,7 +67,7 @@ function preload() {
 function create() {
   const { game } = this;
 
-  this.game.world.setBounds(0, 0, CONFIG.LEVEL.width, CONFIG.LEVEL.height)
+  this.game.world.setBounds(0, 0, CONFIG.WORLD.width, CONFIG.WORLD.height)
 
   this.physics.startSystem(Phaser.Physics.ARCADE)
   this.physics.arcade.gravity.y = CONFIG.GAME.gravity
@@ -108,16 +108,16 @@ function create() {
   window._pt = pt;
 
   // Initialize Ticket
-  ticket = new Ticket(game, {
-    anchor: [0.5, 0.5],
-    numSnippets: 4,
-    name: 'ticket',
-    numBugs: 2,
-    pos: [CONFIG.SCREEN.width / 2 - 16, 64]
-  })
+  // ticket = new Ticket(game, {
+  //   anchor: [0.5, 0.5],
+  //   numSnippets: 8,
+  //   name: 'ticket',
+  //   numBugs: 2,
+  //   pos: [CONFIG.SCREEN.width / 2 - 16, 64]
+  // })
 
-  ticket.init(layer_air, layer_ground, pt)
-  window._ticket = ticket
+  // ticket.init(layer_air, layer_ground, pt)
+  // window._ticket = ticket
 
   ticketManager = new TicketController(this.game)
   ticketManager.ticketInitializer(t =>
@@ -129,7 +129,7 @@ function create() {
 
 function update() {
   pt.update()
-  ticket.update()
+  // ticket.update()
   ticketManager.update()
 }
 

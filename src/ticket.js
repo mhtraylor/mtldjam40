@@ -86,12 +86,15 @@ export class Ticket extends Phaser.Sprite {
 
 
     GenerateSnippets(layer_air, layer_ground, pt) {
-        let x = CONFIG.SCREEN.width / 2 - 100
-        let y = CONFIG.SCREEN.height / 2 - 100
+        let x = CONFIG.WORLD.width / 2
+        let y = CONFIG.WORLD.height / 3
 
+        let px = 0
         for (let s = 0; s < this.config.numSnippets; s++) {
+            px = this.game.rnd.integerInRange(0, CONFIG.WORLD.width)
+
             let snip = new Snippet(this.game, {
-                pos   : [x, y],
+                pos   : [px, y],
                 anchor: [0.5, 1],
                 name  : 'snippet',
                 tint  : this.tint
@@ -101,10 +104,8 @@ export class Ticket extends Phaser.Sprite {
             snip.addCollision(layer_air)
             snip.addCollision(layer_ground)
             snip.addOverlap(pt)
-            this.snippets.push(snip)
 
-            x += 60
-            y += 60
+            this.snippets.push(snip)
         }
     }
 
