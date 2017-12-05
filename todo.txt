@@ -42,3 +42,4 @@ Pause screen
 bugs spawning
     - when bugspawntimer (inside ticket) expires
         - % chance to spawn bug based on snippets collected / snippets total for ticket
+random ticket spawn angle

@@ -49,6 +49,13 @@ export class Ticket extends Phaser.Sprite {
             QA: this.defaultXPos + 128,
             DONE: this.defaultXPos + 192
         }
+
+        this.anglePositions = {
+            TODO: this.gameCtrl.game.rnd.realInRange(-5, 5),
+            IN_PROGRESS: this.gameCtrl.game.rnd.realInRange(-10, 10),
+            QA: this.gameCtrl.game.rnd.realInRange(-15, 15),
+            DONE: this.gameCtrl.game.rnd.realInRange(-20, 20)
+        }
     }
 
 
@@ -71,15 +78,19 @@ export class Ticket extends Phaser.Sprite {
         switch(this.currentStatus) {
             case TicketStatus.TODO:
                 this.position.x = this.boardPositions.TODO
+                this.angle = this.anglePositions.TODO
                 break;
             case TicketStatus.IN_PROGRESS:
                 this.position.x = this.boardPositions.IN_PROGRESS
+                this.angle = this.anglePositions.IN_PROGRESS
                 break;
             case TicketStatus.QA:
                 this.position.x = this.boardPositions.QA
+                this.angle = this.anglePositions.QA
                 break;
             case TicketStatus.DONE:
                 this.position.x = this.boardPositions.DONE
+                this.angle = this.anglePositions.DONE
                 break;
         }
     }
@@ -236,7 +247,7 @@ export class TicketController {
 
             let ticket = new Ticket(this.gameCtrl, {
                 anchor: [0.5, 0.5],
-                angle: this.gameCtrl.game.rnd.realInRange(-15, 15),
+                angle: this.gameCtrl.game.rnd.realInRange(-5, 5),
                 numSnippets: this.gameCtrl.game.rnd.realInRange(1, 8), // this should be based on level
                 name: 'ticket',
                 tint: this.getRandomAvailableColor(),
