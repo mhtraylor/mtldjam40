@@ -57,7 +57,7 @@ const config = {
       },
     ],
   },
-  plugins: NODE_ENV === 'production' ? [new webpack.optimize.UglifyJsPlugin()] : [],
+  plugins: NODE_ENV === 'production' ? [] : [],
   devServer: {
     contentBase: BUILD_DIR,
     port: 8080,
